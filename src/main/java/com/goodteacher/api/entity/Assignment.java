@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//todo: @Entity - на майбутнє, до БД (дописати атотації до полів)
+//@Entity - на майбутнє, до БД (дописати атотації до полів)
 public class Assignment {
     private UUID id;
     private Task task;
