@@ -16,7 +16,7 @@ public class TaskDTO {
     private String text;
     private String quiz;
 
-/*    public static TaskDTO toDTO(Task task){
+    public static TaskDTO toDTO(final Task task){
         final TaskDTO taskDTO = new TaskDTO();
 
         taskDTO.setId(task.getId());
@@ -25,5 +25,5 @@ public class TaskDTO {
         taskDTO.setQuiz(task.getQuiz());
 
         return taskDTO;
-    }*/
+    }
 }
