@@ -24,6 +24,7 @@ public class Student extends User {
     @Column
     private int entryYear;
 
+    // todo: check persistence
     @OneToMany(mappedBy = "student")
     @JoinColumn(name = "student_id")
     private Set<Assignment> assignments;

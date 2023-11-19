@@ -22,6 +22,7 @@ public class Assignment {
     @Id
     private UUID id;
 
+    // todo: check persistence
     @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;
