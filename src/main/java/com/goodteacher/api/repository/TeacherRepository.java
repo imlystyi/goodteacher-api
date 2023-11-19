@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+/**
+ * Repository to manage {@link Teacher} instances.
+ */
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, UUID> {
 

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+/**
+ * Repository to manage {@link Task} instances.
+ */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, UUID> {
 

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+/**
+ * Repository to manage {@link User} instances.
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 

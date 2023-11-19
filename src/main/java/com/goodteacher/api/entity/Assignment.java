@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.UUID;
 
+/**
+ * Represents a {@link Task} assigned by the {@link Teacher} for a specific {@link Student}.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
