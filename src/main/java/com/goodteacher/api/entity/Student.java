@@ -9,20 +9,20 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+// todo: create Student entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Task {
+public class Student extends User {
     @Id
     private UUID id;
 
     @Column
-    private String name;
+    private int entryYear;
 
-    @Column
-    private String text;
+    //private Set<Assignment> assignments;
 
-    @Column
-    private String quiz;
+    // todo-i4:
+
 }

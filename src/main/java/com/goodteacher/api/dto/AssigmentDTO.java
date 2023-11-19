@@ -13,7 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AssigmentDTO {
-
     private UUID id;
     @NotNull
     private Task task;
@@ -23,5 +22,4 @@ public class AssigmentDTO {
     //private Teacher teacher;
     private Double grade;
     private LocalDate deadline;
-
 }
