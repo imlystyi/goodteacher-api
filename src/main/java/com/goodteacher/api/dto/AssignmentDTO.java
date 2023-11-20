@@ -1,5 +1,6 @@
 package com.goodteacher.api.dto;
 
+import com.goodteacher.api.entity.Assignment;
 import com.goodteacher.api.entity.Student;
 import com.goodteacher.api.entity.Teacher;
 import com.goodteacher.api.entity.Task;
@@ -20,4 +21,17 @@ public class AssignmentDTO {
     private Teacher teacher;
     private Double grade;
     private LocalDate deadline;
+
+    public static AssignmentDTO toDTO(final Assignment assignment){
+        final AssignmentDTO assignmentDTO = new AssignmentDTO();
+
+        assignmentDTO.setId(assignment.getId());
+        assignmentDTO.setTask(assignment.getTask());
+        assignmentDTO.setStudent(assignment.getStudent());
+        assignmentDTO.setTeacher(assignment.getTeacher());
+        assignmentDTO.setGrade(assignment.getGrade());
+        assignmentDTO.setDeadline(assignment.getDeadline());
+
+        return assignmentDTO;
+    }
 }
