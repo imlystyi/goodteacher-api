@@ -43,4 +43,7 @@ public class Assignment {
 
     @Column
     private LocalDate deadline;
+
+    @Column
+    private Boolean isActive = Boolean.TRUE;
 }
