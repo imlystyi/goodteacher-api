@@ -21,11 +21,11 @@ import java.util.Set;
 @Table(name = "students")
 @PrimaryKeyJoinColumn(name = "id")
 public class Student extends User {
-    @Column
+    @Column(nullable = false)
     private int entryYear;
 
     // todo: check persistence
     @OneToMany(mappedBy = "student")
-    @JoinColumn(name = "student_id")
+    //@JoinColumn(name = "student_id")
     private Set<Assignment> assignments;
 }

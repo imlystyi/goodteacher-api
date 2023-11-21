@@ -11,10 +11,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDTO {
+    // region Fields
+
     private UUID id;
     private String name;
     private String text;
     private String quiz;
+
+    // endregion
+
+    // region Methods
 
     public static TaskDTO toDTO(final Task task){
         final TaskDTO taskDTO = new TaskDTO();
@@ -26,4 +32,6 @@ public class TaskDTO {
 
         return taskDTO;
     }
+
+    // endregion
 }

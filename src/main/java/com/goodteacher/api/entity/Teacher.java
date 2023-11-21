@@ -22,6 +22,6 @@ public class Teacher extends User {
     private String about;
 
     // todo: status validation in DTO
-    @Column
+    @Column(nullable = false)
     private String status;
 }

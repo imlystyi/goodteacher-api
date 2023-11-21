@@ -11,9 +11,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskTextOnlyDTO {
+    // region Fields
+
     private UUID id;
     private String name;
     private String text;
+
+    // endregion
+
+    // region Methods
 
     public static TaskTextOnlyDTO toDTO(final Task task){
         final TaskTextOnlyDTO taskTextOnlyDTO = new TaskTextOnlyDTO();
@@ -25,4 +31,5 @@ public class TaskTextOnlyDTO {
         return taskTextOnlyDTO;
     }
 
+    // endregion
 }

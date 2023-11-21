@@ -15,12 +15,18 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AssignmentDTO {
+    // region Fields
+
     private UUID id;
     private Task task;
     private Student student;
     private Teacher teacher;
     private Double grade;
     private LocalDate deadline;
+
+    // endregion
+
+    // region Methods
 
     public static AssignmentDTO toDTO(final Assignment assignment){
         final AssignmentDTO assignmentDTO = new AssignmentDTO();
@@ -34,4 +40,6 @@ public class AssignmentDTO {
 
         return assignmentDTO;
     }
+
+    // endregion
 }

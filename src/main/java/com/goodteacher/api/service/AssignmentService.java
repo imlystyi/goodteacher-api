@@ -6,8 +6,8 @@ import com.goodteacher.api.entity.Assignment;
 import java.util.UUID;
 
 public interface AssignmentService {
-    Assignment findById(UUID id);
-    AssignmentDTO save(AssignmentDTO assignmentDTO);
-    AssignmentDTO update(AssignmentDTO assignmentDTO);
-    void deleteById(UUID id);
+    Assignment findById(final UUID id);
+    AssignmentDTO save(final AssignmentDTO assignmentDTO);
+    AssignmentDTO update(final AssignmentDTO assignmentDTO);
+    void deleteById(final UUID id);
 }

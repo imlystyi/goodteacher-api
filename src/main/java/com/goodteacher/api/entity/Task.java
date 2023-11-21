@@ -19,7 +19,7 @@ public class Task {
     @Id
     private UUID id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     @Column
