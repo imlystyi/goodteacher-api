@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaskServiceImpl implements TaskService {
     @Override
-    public TaskDTO save(TaskDTO taskDTO) {
+    public TaskDTO save(final TaskDTO taskDTO) {
         return null;
     }
 
     @Override
-    public TaskDTO update(TaskDTO taskDTO) {
+    public TaskDTO update(final TaskDTO taskDTO) {
         return null;
     }
 }
