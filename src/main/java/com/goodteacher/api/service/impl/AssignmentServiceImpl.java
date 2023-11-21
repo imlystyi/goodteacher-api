@@ -9,7 +9,14 @@ import java.util.UUID;
 
 public class AssignmentServiceImpl implements AssignmentService {
     private AssignmentRepository assignmentRepository;
+
     @Override
+    public AssignmentDTO findDTOById(UUID id) {
+        final Assignment assignment = findById(id);
+
+        return AssignmentDTO.toDTO(assignment);
+    }
+
     public Assignment findById(UUID id) {
         return assignmentRepository.findById(id)
                 .orElseThrow(( ) -> new IllegalArgumentException("Assignment not found"));
