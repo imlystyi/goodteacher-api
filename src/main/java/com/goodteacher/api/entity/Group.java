@@ -39,4 +39,7 @@ public class Group {
 
     @ManyToMany(mappedBy = "groups")
     private Set<Student> students;
+
+    @Column(nullable = false)
+    private Boolean isActive = Boolean.TRUE;
 }

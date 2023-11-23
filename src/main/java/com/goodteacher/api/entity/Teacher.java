@@ -20,7 +20,7 @@ public class Teacher extends User {
     @Column
     private String about;
 
-    // TODO: 23-11-2023: Provide status validation
+    // TODO: 23-11-2023: Vladyslav: Provide status validation
     @Column(nullable = false)
     private String status;
 }
