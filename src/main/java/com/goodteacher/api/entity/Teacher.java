@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-// todo: create Teacher entity
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -21,7 +20,7 @@ public class Teacher extends User {
     @Column
     private String about;
 
-    // todo: status validation in DTO
+    // TODO: 23-11-2023: Provide status validation
     @Column(nullable = false)
     private String status;
 }

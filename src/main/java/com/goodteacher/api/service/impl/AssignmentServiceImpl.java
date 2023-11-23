@@ -4,11 +4,17 @@ import com.goodteacher.api.dto.AssignmentDTO;
 import com.goodteacher.api.entity.Assignment;
 import com.goodteacher.api.repository.AssignmentRepository;
 import com.goodteacher.api.service.AssignmentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+// TODO: 23-11-2023, Oleksandr: Fix issues in AssignmentServiceImpl methods
+
+@Service
+@RequiredArgsConstructor
 public class AssignmentServiceImpl implements AssignmentService {
-    private AssignmentRepository assignmentRepository;
+    private final AssignmentRepository assignmentRepository;
 
     @Override
     public AssignmentDTO findDTOById(final UUID id) {
@@ -22,9 +28,9 @@ public class AssignmentServiceImpl implements AssignmentService {
         final Assignment assignment = new Assignment();
 
         assignment.setId(assignmentDTO.getId());
-        assignment.setTask(assignmentDTO.getTask());
-        assignment.setStudent(assignmentDTO.getStudent());
-        assignment.setTeacher(assignmentDTO.getTeacher());
+//        assignment.setTask(assignmentDTO.getTask());
+//        assignment.setStudent(assignmentDTO.getStudent());
+//        assignment.setTeacher(assignmentDTO.getTeacher());
         assignment.setGrade(assignmentDTO.getGrade());
         assignment.setDeadline(assignmentDTO.getDeadline());
 
@@ -34,14 +40,14 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public AssignmentDTO update(final AssignmentDTO assignmentDTO) {
         if (assignmentDTO.getId() == null) {
-            throw new IllegalArgumentException("Assignment id cannot be null");
+            throw new IllegalArgumentException("Assignment.id cannot be null.");
         }
 
         final Assignment updateAssignment = findById(assignmentDTO.getId());
 
-        updateAssignment.setTask(assignmentDTO.getTask());
-        updateAssignment.setStudent(assignmentDTO.getStudent());
-        updateAssignment.setTeacher(assignmentDTO.getTeacher());
+//        updateAssignment.setTask(assignmentDTO.getTaskId());
+//        updateAssignment.setStudent(assignmentDTO.getStudentId());
+//        updateAssignment.setTeacher(assignmentDTO.getTeacherId());
         updateAssignment.setGrade(assignmentDTO.getGrade());
         updateAssignment.setDeadline(assignmentDTO.getDeadline());
         assignmentRepository.save(updateAssignment);
@@ -58,6 +64,6 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     private Assignment findById(final UUID id) {
         return assignmentRepository.findById(id)
-                                   .orElseThrow(() -> new IllegalArgumentException("Assignment not found"));
+                                   .orElseThrow(() -> new IllegalArgumentException("Assignment not found."));
     }
 }

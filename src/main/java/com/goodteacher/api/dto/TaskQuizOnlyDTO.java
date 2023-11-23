@@ -21,7 +21,7 @@ public class TaskQuizOnlyDTO {
 
     // region Methods
 
-    public static TaskQuizOnlyDTO toDTO(final Task task){
+    public static TaskQuizOnlyDTO toDTO(final Task task) {
         final TaskQuizOnlyDTO taskQuizOnlyDTO = new TaskQuizOnlyDTO();
 
         taskQuizOnlyDTO.setId(task.getId());

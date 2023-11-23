@@ -3,6 +3,8 @@ package com.goodteacher.api.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -24,8 +26,12 @@ public class Student extends User {
     @Column(nullable = false)
     private int entryYear;
 
-    // todo: check persistence
     @OneToMany(mappedBy = "student")
-    //@JoinColumn(name = "student_id")
     private Set<Assignment> assignments;
+
+    @ManyToMany
+    @JoinTable(name = "students_groups",
+               joinColumns = @JoinColumn(name = "student_id"),
+               inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<Group> groups;
 }

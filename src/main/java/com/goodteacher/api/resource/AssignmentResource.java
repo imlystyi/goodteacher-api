@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+// TODO: 23-11-2023, Vladyslav: Improve codestyle
+
 @RestController
 @RequestMapping("/api/assignments")
 public class AssignmentResource {

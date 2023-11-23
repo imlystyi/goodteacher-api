@@ -1,9 +1,6 @@
 package com.goodteacher.api.dto;
 
 import com.goodteacher.api.entity.Assignment;
-import com.goodteacher.api.entity.Student;
-import com.goodteacher.api.entity.Teacher;
-import com.goodteacher.api.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +15,9 @@ public class AssignmentDTO {
     // region Fields
 
     private UUID id;
-    private Task task;
-    private Student student;
-    private Teacher teacher;
+    private UUID taskId;
+    private UUID studentId;
+    private UUID teacherId;
     private Double grade;
     private LocalDate deadline;
 
@@ -28,13 +25,13 @@ public class AssignmentDTO {
 
     // region Methods
 
-    public static AssignmentDTO toDTO(final Assignment assignment){
+    public static AssignmentDTO toDTO(final Assignment assignment) {
         final AssignmentDTO assignmentDTO = new AssignmentDTO();
 
         assignmentDTO.setId(assignment.getId());
-        assignmentDTO.setTask(assignment.getTask());
-        assignmentDTO.setStudent(assignment.getStudent());
-        assignmentDTO.setTeacher(assignment.getTeacher());
+        assignmentDTO.setTaskId(assignment.getTask().getId());
+        assignmentDTO.setStudentId(assignment.getStudent().getId());
+        assignmentDTO.setTeacherId(assignment.getTeacher().getId());
         assignmentDTO.setGrade(assignment.getGrade());
         assignmentDTO.setDeadline(assignment.getDeadline());
 

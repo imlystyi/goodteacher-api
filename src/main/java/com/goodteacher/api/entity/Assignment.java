@@ -20,17 +20,16 @@ public class Assignment {
     @Id
     private UUID id;
 
-    // todo: check persistence
     @ManyToOne
-    @JoinColumn(name = "task_id")
+    @JoinColumn(name = "task_id", nullable = false)
     private Task task;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
+    @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
 
     @Column

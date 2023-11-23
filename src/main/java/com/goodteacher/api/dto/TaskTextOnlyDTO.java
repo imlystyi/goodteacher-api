@@ -21,7 +21,7 @@ public class TaskTextOnlyDTO {
 
     // region Methods
 
-    public static TaskTextOnlyDTO toDTO(final Task task){
+    public static TaskTextOnlyDTO toDTO(final Task task) {
         final TaskTextOnlyDTO taskTextOnlyDTO = new TaskTextOnlyDTO();
 
         taskTextOnlyDTO.setId(task.getId());

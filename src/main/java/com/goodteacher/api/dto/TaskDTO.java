@@ -22,7 +22,7 @@ public class TaskDTO {
 
     // region Methods
 
-    public static TaskDTO toDTO(final Task task){
+    public static TaskDTO toDTO(final Task task) {
         final TaskDTO taskDTO = new TaskDTO();
 
         taskDTO.setId(task.getId());

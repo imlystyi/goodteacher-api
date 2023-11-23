@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompanionDTO {
+public class UserMessagingDTO {
     private UUID id;
     private String name;
     private String surname;
