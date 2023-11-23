@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+/**
+ * Represents a generic model of a user registered in the database.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
