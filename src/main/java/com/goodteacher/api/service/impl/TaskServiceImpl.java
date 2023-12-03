@@ -12,22 +12,26 @@ import java.util.UUID;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
     private TaskRepository taskRepository;
+
+
 
     private Task findById(final UUID id) {
         return taskRepository.findById(id).orElseThrow(); //TODO: EXECPTION!!!
     }
-
-    public TaskDTO findDTOById( UUID id) {
+    @Override
+    public TaskDTO findDTOById(UUID id) {
         final Task task = findById(id);
 
         return TaskDTO.toDTO(task);
     }
 
-    public TaskDTO save(final TaskDTO taskDTO){
+    @Override
+    public TaskDTO save(TaskDTO taskDTO) {
         final Task task = new Task();
 
+        task.setId(taskDTO.getId());
+        task.setName(taskDTO.getName());
         task.setText(taskDTO.getText());
         task.setQuiz(taskDTO.getQuiz());
         taskRepository.save(task);
@@ -35,19 +39,21 @@ public class TaskServiceImpl implements TaskService {
         return TaskDTO.toDTO(task);
     }
 
-    public TaskDTO update(final TaskDTO taskDTO){
-        if (taskDTO.getId() == null){
-            throw new RuntimeException(); //TODO: EXECPTION!!!
-        }
-        final Task savedTask = findById(taskDTO.getId());
+    @Override
+    public TaskDTO update(TaskDTO taskDTO) {
+        final Task task = new Task();
 
-        savedTask.setText(taskDTO.getText());
-        savedTask.setQuiz(taskDTO.getQuiz());
-        taskRepository.save(savedTask);
+        task.setId(taskDTO.getId());
+        task.setName(taskDTO.getName());
+        task.setText(taskDTO.getText());
+        task.setQuiz(taskDTO.getQuiz());
+        taskRepository.save(task);
 
-        return TaskDTO.toDTO(savedTask);
+        return TaskDTO.toDTO(task);
     }
-    public void deleteById(final UUID id){
+
+    @Override
+    public void deleteById(UUID id) {
         taskRepository.deleteById(id);
     }
 }
