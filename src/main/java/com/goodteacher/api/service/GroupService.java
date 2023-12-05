@@ -1,8 +1,12 @@
 package com.goodteacher.api.service;
 
+import com.goodteacher.api.dto.GroupDto;
+import com.goodteacher.api.entity.Assignment;
 import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Student;
 import com.goodteacher.api.entity.Teacher;
+
+import java.util.UUID;
 
 public interface GroupService {
     // TODO-1, Yaroslav: Build service for group
@@ -19,10 +23,20 @@ public interface GroupService {
      * - to update assignment for all students in group;
      * - to delete assignment from all students in group;
      */
+    GroupDto createGroup(GroupDto groupDto);
 
-    void addStudentToGroup(Group group, Student student);
+    void deleteGroupById(final UUID id);
+    void addStudentToGroup(final UUID groupId, final UUID studentId);
 
-    void deleteStudentFromGroup(Group group, Student student);
+    void deleteStudentFromGroup(final UUID groupId, final UUID studentId);
 
-    void changeTeacherInGroup(Group group, Teacher teacher);
+    void changeTeacherInGroup(final UUID groupId, final Teacher teacher);
+
+    void changeGroupAbout(final UUID groupId, final String about);
+
+    void createAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment);
+    void updateAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment, final UUID assignmentId);
+    void deleteAssignmentForAllStudentsInGroup(final UUID groupId, final UUID assignmentId);
+
+
 }
