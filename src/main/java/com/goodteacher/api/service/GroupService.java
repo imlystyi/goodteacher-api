@@ -1,97 +1,42 @@
-package com.goodteacher.api.service.impl;
-
+package com.goodteacher.api.service;
 
 import com.goodteacher.api.dto.GroupDto;
 import com.goodteacher.api.entity.Assignment;
 import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Student;
 import com.goodteacher.api.entity.Teacher;
-import com.goodteacher.api.repository.GroupRepository;
-import com.goodteacher.api.repository.StudentRepository;
-import com.goodteacher.api.repository.TeacherRepository;
-import com.goodteacher.api.service.GroupService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-public class GroupServiceImpl implements GroupService {
-    private StudentRepository studentRepository;
-    private TeacherRepository teacherRepository;
-    private GroupRepository groupRepository;
+public interface GroupService {
+    // TODO: 23-11-2023: Yaroslav: Build service for group
+    // TODO: 23-11-2023: Yaroslav: Build resource (RestController) for group and test it
 
-    public GroupDto findDTOById(final UUID id) {
-        final Group group = findById(id);
+    /* Methods:
+     * - to create group;
+     * - to delete group (soft);
+     * - to add student to group;
+     * - to delete student from group;
+     * - to change teacher in group;
+     * - to change group about;
+     * - to create assignment to all students in group;
+     * - to update assignment for all students in group;
+     * - to delete assignment from all students in group;
+     */
+    GroupDto createGroup(GroupDto groupDto);
 
-        return GroupDto.toDTO(group);
-    }
+    void deleteGroupById(final UUID id);
+    void addStudentToGroup(final UUID groupId, final UUID studentId);
 
-    @Override
-    public GroupDto createGroup(GroupDto groupDto) {
-        final Group group = new Group();
-        group.setId(groupDto.getId());
-        group.setName(groupDto.getName());
-        group.setAbout(groupDto.getAbout());
-        return GroupDto.toDTO(group);
+    void deleteStudentFromGroup(final UUID groupId, final UUID studentId);
 
-    }
+    void changeTeacherInGroup(final UUID groupId, final Teacher teacher);
 
-    @Override
-    public void deleteGroupById(final UUID groupId){
-        groupRepository.getReferenceById(groupId).setIsActive(false);
-    }
+    void changeGroupAbout(final UUID groupId, final String about);
 
-    @Override
-    public void addStudentToGroup(final UUID groupId, final UUID studentId){
-        Student student = studentRepository.getReferenceById(studentId);
-        groupRepository.getReferenceById(groupId).getStudents().add(student);
-    }
+    void createAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment);
+    void updateAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment, final UUID assignmentId);
+    void deleteAssignmentForAllStudentsInGroup(final UUID groupId, final UUID assignmentId);
 
-    @Override
-    public void deleteStudentFromGroup(final UUID groupId, final UUID studentId){
-        Student student = studentRepository.getReferenceById(studentId);
-        groupRepository.getReferenceById(groupId).getStudents().remove(student);
-    }
 
-    @Override
-    public void changeTeacherInGroup(final UUID groupId, final Teacher teacher) {
-        groupRepository.getReferenceById(groupId).setTeacher(teacher);
-    }
-    @Override
-    public void changeGroupAbout(final UUID groupId, final String about){
-        groupRepository.getReferenceById(groupId).setAbout(about);
-    }
-    @Override
-    public void createAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment){
-        groupRepository.getReferenceById(groupId).getStudents().forEach(student ->
-                student.getAssignments().add(assignment));
-    }
-    @Override
-    public void updateAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment, final UUID assignmentId){
-
-        groupRepository.getReferenceById(groupId).getStudents().forEach(student ->{
-            Assignment assignment1 =
-                    student.getAssignments().stream().
-                            filter(ass -> ass.getId().equals(assignmentId)).findAny().orElse(null);
-
-            student.getAssignments().remove(assignment1);
-            student.getAssignments().add(assignment);
-        });
-    }
-    @Override
-    public void deleteAssignmentForAllStudentsInGroup(final UUID groupId, final UUID assignmentId){
-        groupRepository.getReferenceById(groupId).getStudents().forEach(student -> {
-            Assignment assignment =
-                    student.getAssignments().stream().
-                            filter(ass -> ass.getId().equals(assignmentId)).findAny().orElse(null);
-
-            student.getAssignments().remove(assignment);
-        });
-    }
-    private Group findById(final UUID id) {
-        return groupRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Group not found."));
-    }
 }
