@@ -2,6 +2,9 @@ package com.goodteacher.api.service.impl;
 
 import com.goodteacher.api.dto.AssignmentDTO;
 import com.goodteacher.api.entity.Assignment;
+import com.goodteacher.api.entity.Student;
+import com.goodteacher.api.entity.Task;
+import com.goodteacher.api.entity.Teacher;
 import com.goodteacher.api.repository.AssignmentRepository;
 import com.goodteacher.api.service.AssignmentService;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +31,19 @@ public class AssignmentServiceImpl implements AssignmentService {
         final Assignment assignment = new Assignment();
 
         assignment.setId(assignmentDTO.getId());
-//        assignment.setTask(assignmentDTO.getTask());
-//        assignment.setStudent(assignmentDTO.getStudent());
-//        assignment.setTeacher(assignmentDTO.getTeacher());
+
+        Task task = taskRepository.findById(assignmentDTO.getTaskId())
+                                  .orElseThrow(() -> new IllegalArgumentException("Task not found."));
+        assignment.setTask(task);
+
+        Student student = studentRepository.findById(assignmentDTO.getStudentId())
+                                  .orElseThrow(() -> new IllegalArgumentException("Student not found."));
+        assignment.setStudent(student);
+
+        Teacher teacher = teacherRepository.findById(assignmentDTO.getTeacherId())
+                                  .orElseThrow(() -> new IllegalArgumentException("Teacher not found."));
+        assignment.setTeacher(teacher);
+
         assignment.setGrade(assignmentDTO.getGrade());
         assignment.setDeadline(assignmentDTO.getDeadline());
 
@@ -45,9 +58,17 @@ public class AssignmentServiceImpl implements AssignmentService {
 
         final Assignment updateAssignment = findById(assignmentDTO.getId());
 
-//        updateAssignment.setTask(assignmentDTO.getTaskId());
-//        updateAssignment.setStudent(assignmentDTO.getStudentId());
-//        updateAssignment.setTeacher(assignmentDTO.getTeacherId());
+        Task task = taskRepository.findById(assignmentDTO.getTaskId())
+                .orElseThrow(() -> new IllegalArgumentException("Task not found."));
+        updateAssignment.setTask(task);
+
+        Student student = studentRepository.findById(assignmentDTO.getStudentId())
+                .orElseThrow(() -> new IllegalArgumentException("Student not found."));
+        updateAssignment.setStudent(student);
+
+        Teacher teacher = teacherRepository.findById(assignmentDTO.getTeacherId())
+                .orElseThrow(() -> new IllegalArgumentException("Teacher not found."));
+        updateAssignment.setTeacher(teacher);
         updateAssignment.setGrade(assignmentDTO.getGrade());
         updateAssignment.setDeadline(assignmentDTO.getDeadline());
         assignmentRepository.save(updateAssignment);
