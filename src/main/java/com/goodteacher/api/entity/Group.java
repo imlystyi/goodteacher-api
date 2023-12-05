@@ -21,8 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "groups")
-@PrimaryKeyJoinColumn(name = "id")
+@Table(name="groups")
 public class Group {
     @Id
     private UUID id;

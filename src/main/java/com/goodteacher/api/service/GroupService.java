@@ -5,8 +5,8 @@ import com.goodteacher.api.entity.Student;
 import com.goodteacher.api.entity.Teacher;
 
 public interface GroupService {
-    // TODO: 23-11-2023: Yaroslav: Build service for group
-    // TODO: 23-11-2023: Yaroslav: Build resource (RestController) for group and test it
+    // TODO-1, Yaroslav: Build service for group
+    // TODO-1, Yaroslav: Build resource (RestController) for group and test it
 
     /* Methods:
      * - to create group;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-// TODO: 23-11-2023, Oleksandr: Fix issues in AssignmentServiceImpl methods
+// TODO-1, Oleksandr: Fix issues in AssignmentServiceImpl methods
 
 @Service
 @RequiredArgsConstructor

@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "assignments")
+@Table(name="assignments")
 public class Assignment {
     @Id
     private UUID id;

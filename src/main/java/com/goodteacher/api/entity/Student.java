@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "students")
+@Table(name="students")
 @PrimaryKeyJoinColumn(name = "id")
 public class Student extends User {
     @Column(nullable = false)
