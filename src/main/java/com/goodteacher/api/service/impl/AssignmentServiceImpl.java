@@ -89,61 +89,61 @@ public class  AssignmentServiceImpl implements AssignmentService {
         assignmentRepository.deleteById(id);
     }
 
-    private Assignment findById(final UUID id) {
+    public Assignment findById(final UUID id) {
         return assignmentRepository.findById(id)
                                    .orElseThrow(() -> new IllegalArgumentException("Assignment not found."));
     }
 
-    private Assignment gradeAssignment(final UUID id, final Double grade) {
+    public Assignment gradeAssignment(final UUID id, final Double grade) {
         final Assignment assignment = findById(id);
         assignment.setGrade(grade);
         assignmentRepository.save(assignment);
         return assignment;
     }
 
-    private Assignment deleteGradeAssignment(final UUID id) {
+    public Assignment deleteGradeAssignment(final UUID id) {
         final Assignment assignment = findById(id);
         assignment.setGrade(null);
         assignmentRepository.save(assignment);
         return assignment;
     }
 
-    private Assignment commentAssignment(final UUID id, final String comment) {
+    public Assignment commentAssignment(final UUID id, final String comment) {
         final Assignment assignment = findById(id);
         assignment.setComment(comment);
         assignmentRepository.save(assignment);
         return assignment;
     }
 
-    private Assignment deleteCommentAssignment(final UUID id) {
+    public Assignment deleteCommentAssignment(final UUID id) {
         final Assignment assignment = findById(id);
         assignment.setComment(null);
         assignmentRepository.save(assignment);
         return assignment;
     }
 
-    private Assignment deadlineAssignment(final UUID id, final LocalDate deadline) {
+    public Assignment deadlineAssignment(final UUID id, final LocalDate deadline) {
         final Assignment assignment = findById(id);
         assignment.setDeadline(deadline);
         assignmentRepository.save(assignment);
         return assignment;
     }
 
-    private Assignment deleteDeadlineAssignment(final UUID id) {
+    public Assignment deleteDeadlineAssignment(final UUID id) {
         final Assignment assignment = findById(id);
         assignment.setDeadline(null);
         assignmentRepository.save(assignment);
         return assignment;
     }
 
-    private Assignment closingDateAssignment(final UUID id, final LocalDate closingDate) {
+    public Assignment closingDateAssignment(final UUID id, final LocalDate closingDate) {
         final Assignment assignment = findById(id);
         assignment.setClosingDate(closingDate);
         assignmentRepository.save(assignment);
         return assignment;
     }
 
-    private Assignment deleteClosingDateAssignment(final UUID id) {
+    public Assignment deleteClosingDateAssignment(final UUID id) {
         final Assignment assignment = findById(id);
         assignment.setClosingDate(null);
         assignmentRepository.save(assignment);

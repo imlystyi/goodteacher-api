@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 // TODO-1: Improve codestyle
@@ -39,4 +40,51 @@ public class AssignmentResource {
     public void deleteById(@PathVariable final UUID id) {
         assignmentService.deleteById(id);
     }
+
+    @PostMapping("/grade/{id}")
+    public void doneAssignment(final @PathVariable UUID id) {
+        assignmentService.doneAssignment(id);
+    }
+
+    @PostMapping("/grade/{id}/{grade}")
+    public void gradeAssignment(@PathVariable UUID id, @PathVariable  Double grade) {
+        assignmentService.gradeAssignment(id,grade);
+    }
+
+    @DeleteMapping("/grade/{id}")
+    public void deleteGradeAssignment(@PathVariable  UUID id) {
+        assignmentService.deleteGradeAssignment(id);
+    }
+
+    @PostMapping("/comment/{id}/{comment}")
+    public void commentAssignment(@PathVariable final UUID id, @PathVariable  String comment) {
+        assignmentService.commentAssignment(id,comment);
+    }
+
+    @DeleteMapping("/comment/{id}")
+    public void deleteCommentAssignment(@PathVariable  UUID id) {
+        assignmentService.deleteCommentAssignment(id);
+    }
+
+    @PostMapping("/deadline/{id}/{deadline}")
+    public void deadlineAssignment(@PathVariable UUID id, @PathVariable final LocalDate deadline) {
+        assignmentService.deadlineAssignment(id,deadline);
+    }
+
+    @DeleteMapping("/deadline/{id}")
+    public void deleteDeadlineAssignment(@PathVariable  UUID id) {
+        assignmentService.deleteDeadlineAssignment(id);
+    }
+
+    @PostMapping("/closingDate/{id}/{closingDate}")
+    public void closingDateAssignment(@PathVariable UUID id,@PathVariable LocalDate closingDate) {
+        assignmentService.closingDateAssignment(id,closingDate);
+    }
+
+    @DeleteMapping("/closingDate/{id}")
+    public void deleteClosingDateAssignment(@PathVariable UUID id) {
+        assignmentService.deleteClosingDateAssignment(id);
+    }
+
+
 }
