@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // TODO-1, Vladyslav: Provide custom exceptions
-    private User findByIdStream(final UUID id) {
+    public User findByIdStream(final UUID id) {
         return this.repository.findById(id)
                               .orElseThrow(() -> new IllegalArgumentException(
                                       "User with id {%s} not found".formatted(id.toString())));
