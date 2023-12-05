@@ -40,4 +40,10 @@ public class Assignment {
 
     @Column
     private Boolean isActive = Boolean.TRUE;
+
+    @Column
+    private String comment;
+
+    @Column
+    private LocalDate closingDate;
 }
