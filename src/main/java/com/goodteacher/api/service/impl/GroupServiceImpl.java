@@ -1,5 +1,6 @@
-package com.goodteacher.api.service.impl;
+// BAD YET
 
+package com.goodteacher.api.service.impl;
 
 import com.goodteacher.api.dto.GroupDto;
 import com.goodteacher.api.entity.Assignment;

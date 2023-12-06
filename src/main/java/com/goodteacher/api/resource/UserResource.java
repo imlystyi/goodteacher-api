@@ -1,13 +1,17 @@
 package com.goodteacher.api.resource;
 
-import com.goodteacher.api.dto.UserDto;
-import com.goodteacher.api.dto.UserSignUpDto;
-import com.goodteacher.api.service.UserService;
+import com.goodteacher.api.dto.*;
+import com.goodteacher.api.entity.*;
+import com.goodteacher.api.service.*;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+/**
+ * REST controller to manage {@link User} entities.
+ */
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor

@@ -9,13 +9,19 @@ import com.goodteacher.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
+
+    @Override
+    public UserDto findById(final UUID id) {
+        final User entity = this.findByIdStream(id);
+
+        return UserMapper.fromEntityToDto(entity);
+    }
 
     @Override
     public UserDto findByNickname(final String nickname) {
@@ -79,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // TODO-1, Vladyslav: Provide custom exceptions
-    public User findByIdStream(final UUID id) {
+    private User findByIdStream(final UUID id) {
         return this.repository.findById(id)
                               .orElseThrow(() -> new IllegalArgumentException(
                                       "User with id {%s} not found".formatted(id.toString())));

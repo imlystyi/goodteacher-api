@@ -15,35 +15,42 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="assignments")
+@Table(name = "assignments")
 public class Assignment {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column
+    private String title = null;
+
     @ManyToOne
-    @JoinColumn(name = "task_id", nullable = false)
+    @JoinColumn(name = "task_id",
+                nullable = false)
     private Task task;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id",
+                nullable = false)
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id", nullable = false)
+    @JoinColumn(name = "teacher_id",
+                nullable = false)
     private Teacher teacher;
 
     @Column
-    private Double grade;
+    private Double grade = null;
 
     @Column
-    private LocalDate deadline;
+    private String comment = null;
+
+    @Column
+    private LocalDate deadline = null;
+
+    @Column
+    private LocalDate closingDate = null;
 
     @Column
     private Boolean isActive = Boolean.TRUE;
-
-    @Column
-    private String comment;
-
-    @Column
-    private LocalDate closingDate;
 }

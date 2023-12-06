@@ -1,15 +1,15 @@
 package com.goodteacher.api.service;
 
-import com.goodteacher.api.dto.AssignmentDTO;
+import com.goodteacher.api.dto.AssignmentDto;
 import com.goodteacher.api.entity.Assignment;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 public interface AssignmentService {
-    AssignmentDTO findDTOById(UUID id);
-    AssignmentDTO save(AssignmentDTO assignmentDTO);
-    AssignmentDTO update(AssignmentDTO assignmentDTO);
+    AssignmentDto findById(UUID id);
+    AssignmentDto save(AssignmentDto assignmentDTO);
+    AssignmentDto update(AssignmentDto assignmentDTO);
 
     Assignment gradeAssignment( UUID id,Double grade);
     Assignment deleteGradeAssignment(UUID id);

@@ -10,13 +10,13 @@ public class UserMapper {
                            entity.getPatronymic(), entity.getBirthDate());
     }
 
-    public static void fromEntityToSignUpDto(final User entity) {
-
-    }
-
-    public static void fromDtoToEntity(final UserDto dto) {
-
-    }
+//    public static void fromEntityToSignUpDto(final User entity) {
+//
+//    }
+//
+//    public static void fromDtoToEntity(final UserDto dto) {
+//
+//    }
 
     public static User fromSignUpDtoToEntity(final UserSignUpDto signUpDto) {
         return new User(signUpDto.getNickname(), signUpDto.getEmail(), signUpDto.getPassword(),

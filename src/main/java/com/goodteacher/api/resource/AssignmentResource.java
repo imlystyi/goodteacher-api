@@ -1,6 +1,6 @@
 package com.goodteacher.api.resource;
 
-import com.goodteacher.api.dto.AssignmentDTO;
+import com.goodteacher.api.dto.AssignmentDto;
 import com.goodteacher.api.service.AssignmentService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,17 +22,17 @@ public class AssignmentResource {
     private AssignmentService assignmentService;
 
     @GetMapping("/find/{id}")
-    public AssignmentDTO findById(@PathVariable final UUID id) {
-        return assignmentService.findDTOById(id);
+    public AssignmentDto findById(@PathVariable final UUID id) {
+        return assignmentService.findById(id);
     }
 
     @PostMapping("/save")
-    public AssignmentDTO save(final @RequestBody AssignmentDTO assignmentDTO) {
+    public AssignmentDto save(final @RequestBody AssignmentDto assignmentDTO) {
         return assignmentService.save(assignmentDTO);
     }
 
     @PutMapping("/update")
-    public AssignmentDTO update(final @RequestBody AssignmentDTO assignmentDTO) {
+    public AssignmentDto update(final @RequestBody AssignmentDto assignmentDTO) {
         return assignmentService.update(assignmentDTO);
     }
 

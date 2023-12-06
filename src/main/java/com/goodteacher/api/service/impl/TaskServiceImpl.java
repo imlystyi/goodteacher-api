@@ -1,3 +1,5 @@
+// BAD YET
+
 package com.goodteacher.api.service.impl;
 
 import com.goodteacher.api.dto.TaskDTO;

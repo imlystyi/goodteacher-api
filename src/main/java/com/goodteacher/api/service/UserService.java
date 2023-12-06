@@ -6,7 +6,10 @@ import com.goodteacher.api.dto.UserSignUpDto;
 import java.util.UUID;
 
 public interface UserService {
+    UserDto findById(final UUID id);
+
     UserDto findByNickname(final String nickname);
+
     UserDto findByName(final String firstName, final String lastName, final String patronymic);
 
     UserDto signUp(final UserSignUpDto userSignUpDTO);
@@ -15,7 +18,9 @@ public interface UserService {
     //UserDTO signIn(final UserDTO userDTO);
 
     UserDto updateInfo(final UserDto userDTO);
+
     void updateEmail(final UUID id, final String email);
+
     void updatePassword(final UUID id, final String password);
 
     void deleteById(final UUID id);
