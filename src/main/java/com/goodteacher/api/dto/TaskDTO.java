@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -17,6 +18,7 @@ public class TaskDTO {
     private String name;
     private String text;
     private String quiz;
+    private LocalDate date;
 
     // endregion
 
@@ -29,6 +31,7 @@ public class TaskDTO {
         taskDTO.setName(task.getName());
         taskDTO.setText(task.getText());
         taskDTO.setQuiz(task.getQuiz());
+        taskDTO.setDate(task.getDate());
 
         return taskDTO;
     }
