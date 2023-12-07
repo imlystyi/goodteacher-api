@@ -32,3 +32,8 @@ public class Task {
     @Column
     private LocalDate date;
 }
+/*
+* щось то там
+*
+* */
+
