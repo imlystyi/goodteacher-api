@@ -1,106 +1,132 @@
 package com.goodteacher.api.service.impl;
 
+import com.goodteacher.api.dto.NameDto;
 import com.goodteacher.api.dto.UserDto;
-import com.goodteacher.api.dto.UserSignUpDto;
+import com.goodteacher.api.dto.UserSaveDto;
 import com.goodteacher.api.entity.User;
+import com.goodteacher.api.exception.NotFoundException;
+import com.goodteacher.api.exception.UserAlreadyExistsException;
 import com.goodteacher.api.mapper.UserMapper;
 import com.goodteacher.api.repository.UserRepository;
 import com.goodteacher.api.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
     @Override
-    public UserDto findById(final UUID id) {
-        final User entity = this.findByIdStream(id);
+    public UserDto findById(final Long id) {
+        final User userEntity = this.findByIdStream(id);
 
-        return UserMapper.fromEntityToDto(entity);
+        return UserMapper.fromEntityToDto(userEntity);
     }
 
     @Override
     public UserDto findByNickname(final String nickname) {
-        final User entity = this.findByNicknameStream(nickname);
+        final User userEntity = this.findByNicknameStream(nickname, true);
 
-        return UserMapper.fromEntityToDto(entity);
+        return UserMapper.fromEntityToDto(userEntity);
     }
 
     @Override
-    public UserDto findByName(final String firstName, final String lastName, final String patronymic) {
-        final User entity = this.findByNameStream(firstName, lastName, patronymic);
-
-        return UserMapper.fromEntityToDto(entity);
+    public Set<UserDto> findAllByName(final NameDto nameDto) {
+        return this.findAllByNameStream(nameDto.getFirstName(), nameDto.getLastName(), nameDto.getPatronymic())
+                   .stream()
+                   .map(UserMapper::fromEntityToDto)
+                   .collect(Collectors.toSet());
     }
 
     @Override
-    public UserDto signUp(final UserSignUpDto userSignUpDTO) {
-        final User entity = this.repository.save(UserMapper.fromSignUpDtoToEntity(userSignUpDTO));
+    public UserDto save(final UserSaveDto userSaveDto) {
+        if (this.findByNicknameStream(userSaveDto.getNickname(), false) != null) {
+            throw new UserAlreadyExistsException("User with nickname \"%s\" already exists".formatted(
+                    userSaveDto.getNickname()));
+        } else if (this.findByEmailStream(userSaveDto.getEmail()) != null) {
+            throw new UserAlreadyExistsException("User with email \"%s\" already exists".formatted(
+                    userSaveDto.getEmail()));
+        }
 
-        return UserMapper.fromEntityToDto(entity);
+        final User userEntity = this.userRepository.save(UserMapper.fromSignUpDtoToEntity(userSaveDto));
+
+        return UserMapper.fromEntityToDto(userEntity);
     }
 
     @Override
-    public UserDto updateInfo(final UserDto dto) {
-        final User entity = this.findByIdStream(dto.getId());
+    public void updateEmail(final Long id, final String email) {
+        final User userEntity = this.findByIdStream(id);
 
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setPatronymic(dto.getPatronymic());
+        userEntity.setEmail(email);
 
-        this.repository.save(entity);
-
-        return UserMapper.fromEntityToDto(entity);
+        this.userRepository.save(userEntity);
     }
 
     @Override
-    public void updateEmail(final UUID id, final String email) {
-        final User entity = this.findByIdStream(id);
+    public void updatePassword(final Long id, final String password) {
+        final User userEntity = this.findByIdStream(id);
 
-        entity.setEmail(email);
+        userEntity.setPassword(password);
 
-        this.repository.save(entity);
+        this.userRepository.save(userEntity);
     }
 
     @Override
-    public void updatePassword(final UUID id, final String password) {
-        final User entity = this.findByIdStream(id);
+    public UserDto updateName(final Long id, final NameDto nameDto) {
+        final User userEntity = this.findByIdStream(id);
 
-        entity.setPassword(password);
+        userEntity.setFirstName(nameDto.getFirstName());
+        userEntity.setLastName(nameDto.getLastName());
+        userEntity.setPatronymic(nameDto.getPatronymic());
 
-        this.repository.save(entity);
+        this.userRepository.save(userEntity);
+
+        return UserMapper.fromEntityToDto(userEntity);
     }
 
     @Override
-    public void deleteById(final UUID id) {
-        final User entity = this.findByIdStream(id);
+    public void delete(final Long id) {
+        final User userEntity = this.findByIdStream(id);
 
-        entity.setIsActive(false);
+        userEntity.setIsActive(Boolean.FALSE);
 
-        this.repository.save(entity);
+        this.userRepository.save(userEntity);
     }
 
-    // TODO-1, Vladyslav: Provide custom exceptions
-    private User findByIdStream(final UUID id) {
-        return this.repository.findById(id)
-                              .orElseThrow(() -> new IllegalArgumentException(
-                                      "User with id {%s} not found".formatted(id.toString())));
+    private User findByIdStream(final Long id) {
+        return this.userRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("User with id %d not found".formatted(id)));
     }
 
-    private User findByNicknameStream(final String nickname) {
-        return this.repository.findByNickname(nickname)
-                              .orElseThrow(() -> new IllegalArgumentException(
-                                      "User with nickname {%s} not found".formatted(nickname)));
+    private User findByEmailStream(final String email) {
+        return this.userRepository.findByEmail(email).orElse(null);
     }
 
-    private User findByNameStream(final String firstName, final String lastName, final String patronymic) {
-        return this.repository.findByFirstNameAndLastNameAndPatronymic(firstName, lastName, patronymic)
-                              .orElseThrow(() -> new IllegalArgumentException(
-                                      "User with name {%s} {%s} {%s} not found".formatted(firstName, lastName,
-                                                                                          patronymic)));
+    private User findByNicknameStream(final String nickname, final boolean throwExceptionIfNotFound) {
+
+        return throwExceptionIfNotFound
+               ? this.userRepository.findByNickname(nickname).orElseThrow(() -> new NotFoundException(
+                "User with nickname \"%s\" not found".formatted(nickname)))
+               : this.userRepository.findByNickname(nickname).orElse(null);
+    }
+
+    private Set<User> findAllByNameStream(final String firstName, final String lastName, final String patronymic) {
+        final Set<User> userEntities = this.userRepository.findAllByFirstNameAndLastNameAndPatronymic(firstName,
+                                                                                                      lastName,
+                                                                                                      patronymic);
+
+        if (userEntities.isEmpty()) {
+            throw new NotFoundException("Users with name \"%s %s %s\" not found".formatted(firstName,
+                                                                                                 lastName,
+                                                                                                 patronymic));
+        }
+
+        return userEntities;
     }
 }

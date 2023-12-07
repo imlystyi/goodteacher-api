@@ -1,27 +1,28 @@
 package com.goodteacher.api.service;
 
+import com.goodteacher.api.dto.NameDto;
 import com.goodteacher.api.dto.UserDto;
-import com.goodteacher.api.dto.UserSignUpDto;
+import com.goodteacher.api.dto.UserSaveDto;
 
-import java.util.UUID;
+import java.util.Set;
 
 public interface UserService {
-    UserDto findById(final UUID id);
+    UserDto findById(Long id);
 
-    UserDto findByNickname(final String nickname);
+    UserDto findByNickname(String nickname);
 
-    UserDto findByName(final String firstName, final String lastName, final String patronymic);
+    Set<UserDto> findAllByName(NameDto nameDto);
 
-    UserDto signUp(final UserSignUpDto userSignUpDTO);
+    UserDto save(UserSaveDto userSaveDto);
 
     // TODO-1, Vladyslav: Provide signing in
     //UserDTO signIn(final UserDTO userDTO);
 
-    UserDto updateInfo(final UserDto userDTO);
+    void updateEmail(Long id, String email);
 
-    void updateEmail(final UUID id, final String email);
+    void updatePassword(Long id, String password);
 
-    void updatePassword(final UUID id, final String password);
+    UserDto updateName(final Long id, NameDto nameDto);
 
-    void deleteById(final UUID id);
+    void delete(Long id);
 }

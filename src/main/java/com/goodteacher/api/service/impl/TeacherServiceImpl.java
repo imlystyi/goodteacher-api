@@ -21,7 +21,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherDto create(final UUID userId) {
-        userService.findById(userId);
+        return null;
 
 
     }

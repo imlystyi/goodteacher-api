@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 // TODO-1, Vladyslav: Provide security configuration in SpringBoot
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class TeacherAppApplication {
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SpringApplication.run(TeacherAppApplication.class, args);
 	}
 }

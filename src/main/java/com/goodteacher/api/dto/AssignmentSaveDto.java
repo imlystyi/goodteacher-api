@@ -1,25 +1,36 @@
 package com.goodteacher.api.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssignmentDto {
-    private Long id;
+public class AssignmentSaveDto {
+    @NotNull
     private String title;
+
+    @NotNull
     private TaskDTO task;
+
+    @NotNull
     private StudentDto student;
+
+    @NotNull
     private TeacherDto teacher;
+
     private Double grade;
+
     private String comment;
+
     private LocalDate deadline;
+
     private LocalDate closingDate;
+
+    @NotNull
     private Boolean isClosed;
 }

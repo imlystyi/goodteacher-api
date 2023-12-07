@@ -11,5 +11,6 @@ public class StudentMapper {
     }
 
     public static Student fromDtoToEntity(final StudentDto student) {
+        return null;
     }
 }

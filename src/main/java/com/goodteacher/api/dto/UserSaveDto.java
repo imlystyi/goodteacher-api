@@ -1,25 +1,30 @@
 package com.goodteacher.api.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
-    @NotNull
-    private Long id;
-
+public class UserSaveDto {
     @NotNull
     @NotBlank
     private String nickname;
+
+    @NotNull
+    @NotBlank
+    @Email
+    private String email;
+
+    @NotNull
+    @NotBlank
+    private String password;
 
     @NotNull
     @NotBlank
@@ -29,11 +34,8 @@ public class UserDto {
     @NotBlank
     private String lastName;
 
-    @NotNull
-    @NotBlank
     private String patronymic;
 
     @NotNull
-    @NotBlank
     private LocalDate birthDate;
 }

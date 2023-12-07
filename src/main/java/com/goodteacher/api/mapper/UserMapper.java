@@ -1,13 +1,19 @@
 package com.goodteacher.api.mapper;
 
 import com.goodteacher.api.dto.UserDto;
-import com.goodteacher.api.dto.UserSignUpDto;
+import com.goodteacher.api.dto.UserSaveDto;
 import com.goodteacher.api.entity.User;
 
 public class UserMapper {
     public static UserDto fromEntityToDto(final User entity) {
-        return new UserDto(entity.getId(), entity.getNickname(), entity.getFirstName(), entity.getLastName(),
-                           entity.getPatronymic(), entity.getBirthDate());
+        return UserDto.builder()
+                      .id(entity.getId())
+                      .nickname(entity.getNickname())
+                      .firstName(entity.getFirstName())
+                      .lastName(entity.getLastName())
+                      .patronymic(entity.getPatronymic())
+                      .birthDate(entity.getBirthDate())
+                      .build();
     }
 
 //    public static void fromEntityToSignUpDto(final User entity) {
@@ -18,9 +24,15 @@ public class UserMapper {
 //
 //    }
 
-    public static User fromSignUpDtoToEntity(final UserSignUpDto signUpDto) {
-        return new User(signUpDto.getNickname(), signUpDto.getEmail(), signUpDto.getPassword(),
-                        signUpDto.getFirstName(), signUpDto.getLastName(), signUpDto.getPatronymic(),
-                        signUpDto.getBirthDate());
+    public static User fromSignUpDtoToEntity(final UserSaveDto signUpDto) {
+        return User.builder()
+                   .nickname(signUpDto.getNickname())
+                   .email(signUpDto.getEmail())
+                   .password(signUpDto.getPassword())
+                   .firstName(signUpDto.getFirstName())
+                   .lastName(signUpDto.getLastName())
+                   .patronymic(signUpDto.getPatronymic())
+                   .birthDate(signUpDto.getBirthDate())
+                   .build();
     }
 }

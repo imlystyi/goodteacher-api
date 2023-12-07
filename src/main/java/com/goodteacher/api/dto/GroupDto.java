@@ -28,8 +28,8 @@ public class GroupDto {
         GroupDto groupDTO = new GroupDto();
 
         groupDTO.setId(group.getId());
-        groupDTO.setStudentsId(group.getStudents().stream().map(Student::getId).collect(Collectors.toSet()));
-        groupDTO.setTeacherId(group.getTeacher().getId());
+        //groupDTO.setStudentsId(group.getStudents().stream().map(Student::getId).collect(Collectors.toSet()));
+        //groupDTO.setTeacherId(group.getTeacher().getId());
         groupDTO.setName(group.getName());
         groupDTO.setAbout(group.getAbout());
 

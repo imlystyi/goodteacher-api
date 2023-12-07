@@ -1,26 +1,27 @@
 package com.goodteacher.api.service;
 
 import com.goodteacher.api.dto.AssignmentDto;
-import com.goodteacher.api.entity.Assignment;
+import com.goodteacher.api.dto.AssignmentSaveDto;
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.Set;
 
 public interface AssignmentService {
-    AssignmentDto findById(UUID id);
-    AssignmentDto save(AssignmentDto assignmentDTO);
-    AssignmentDto update(AssignmentDto assignmentDTO);
+    AssignmentDto findById(Long id);
 
-    Assignment gradeAssignment( UUID id,Double grade);
-    Assignment deleteGradeAssignment(UUID id);
-    Assignment commentAssignment(UUID id,String comment);
+    Set<AssignmentDto> findAllByTitle(String title);
 
-    Assignment deleteCommentAssignment(UUID id);
-    Assignment deadlineAssignment(UUID id, LocalDate deadline);
-    Assignment deleteDeadlineAssignment(UUID id);
-    Assignment closingDateAssignment(UUID id, LocalDate closingDate);
-    Assignment deleteClosingDateAssignment(UUID id);
-    void deleteById(UUID id);
-    void doneAssignment(UUID id);
+    AssignmentDto save(AssignmentSaveDto assignmentSaveDto);
 
+    AssignmentDto grade(Long id, Double grade);
+
+    AssignmentDto comment(Long id, String comment);
+
+    AssignmentDto setDeadline(Long id, LocalDate deadline);
+
+    AssignmentDto complete(Long id, LocalDate closingDate);
+
+    AssignmentDto incomplete(Long id);
+
+    void delete(Long id);
 }
