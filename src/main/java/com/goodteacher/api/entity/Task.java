@@ -18,7 +18,7 @@ import java.util.UUID;
 @Table(name = "tasks")
 public class Task {
     @Id
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -30,10 +30,5 @@ public class Task {
     private String quiz;
 
     @Column
-    private LocalDate date;
+    private LocalDate creationDate;
 }
-/*
-* щось то там
-*
-* */
-

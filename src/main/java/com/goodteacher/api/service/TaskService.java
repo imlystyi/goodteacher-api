@@ -1,18 +1,18 @@
 package com.goodteacher.api.service;
 
-import com.goodteacher.api.dto.TaskDTO;
+import com.goodteacher.api.dto.TaskDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface TaskService {
-    TaskDTO save(final TaskDTO taskDTO);
+    TaskDto save(final TaskDto taskDTO);
 
-    TaskDTO findDTOById(UUID id);
+    TaskDto findDTOById(Long id);
 
-    void deleteById(UUID id);
+    void deleteById(Long id);
 
-    List<TaskDTO> findTasksByTeacherName(String teacherName);
+/*    List<TaskDto> findTasksByTeacherName(String teacherName);*/
 
-    List<TaskDTO> findTaskByName(String taskName);
+    List<TaskDto> findTaskByName(String taskName);
 }

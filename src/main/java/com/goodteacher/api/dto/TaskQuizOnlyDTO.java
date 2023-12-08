@@ -13,7 +13,7 @@ import java.util.UUID;
 public class TaskQuizOnlyDTO {
     // region Fields
 
-    private UUID id;
+    private Long id;
     private String name;
     private String quiz;
 
