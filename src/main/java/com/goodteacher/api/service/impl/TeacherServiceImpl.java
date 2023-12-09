@@ -64,7 +64,9 @@ public class TeacherServiceImpl implements TeacherService {
                                                 .birthDate(userDto.getBirthDate())
                                                 .build();
 
-        this.teacherRepository.save(TeacherMapper.fromDtoToEntity(teacherDto));
+        final Teacher teacherEntity = this.teacherRepository.save(TeacherMapper.fromDtoToEntity(teacherDto));
+
+        teacherDto.setId(teacherEntity.getId());
 
         return teacherDto;
     }
@@ -132,8 +134,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     private Teacher findByIdStream(final Long id) {
         return this.teacherRepository.findByIdAndIsActiveTrue(id)
-                              .orElseThrow(() -> new NotFoundException(
-                                        "Teacher with id %d not found".formatted(id)));
+                                     .orElseThrow(
+                                             () -> new NotFoundException("Teacher with id %d not found".formatted(id)));
     }
 
     private Teacher findByNicknameStream(final String nickname) {

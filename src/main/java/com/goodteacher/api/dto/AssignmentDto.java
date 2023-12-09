@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class AssignmentDto {
     private Long id;
     private String title;
-    private TaskDTO task;
+    private TaskDto task;
     private StudentDto student;
     private TeacherDto teacher;
     private Double grade;

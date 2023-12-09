@@ -37,6 +37,4 @@ public interface GroupService {
     void createAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment);
     void updateAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment, final UUID assignmentId);
     void deleteAssignmentForAllStudentsInGroup(final UUID groupId, final UUID assignmentId);
-
-
 }

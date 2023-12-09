@@ -15,7 +15,7 @@ public class AssignmentSaveDto {
     private String title;
 
     @NotNull
-    private TaskDTO task;
+    private TaskDto task;
 
     @NotNull
     private StudentDto student;

@@ -67,14 +67,6 @@ public class StudentResource {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PatchMapping("/update-name/{id}")
-    public ResponseEntity<StudentDto> updateName(final @PathVariable Long id,
-                                                 final @RequestBody @Valid NameDto nameDto) {
-        final StudentDto updatedStudentDto = this.studentService.updateName(id, nameDto);
-
-        return ResponseEntity.status(HttpStatus.OK).body(updatedStudentDto);
-    }
-
     @PatchMapping("/update-birth-date/{id}/{birthDate}")
     public ResponseEntity<StudentDto> updateBirthDate(final @PathVariable Long id,
                                                       final @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -82,6 +74,14 @@ public class StudentResource {
         final LocalDate parsedBirthDate = LocalDate.ofInstant(birthDate.toInstant(), ZoneId.systemDefault());
 
         final StudentDto updatedStudentDto = this.studentService.updateBirthDate(id, parsedBirthDate);
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedStudentDto);
+    }
+
+    @PutMapping("/update-name/{id}")
+    public ResponseEntity<StudentDto> updateName(final @PathVariable Long id,
+                                                 final @RequestBody @Valid NameDto nameDto) {
+        final StudentDto updatedStudentDto = this.studentService.updateName(id, nameDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedStudentDto);
     }
