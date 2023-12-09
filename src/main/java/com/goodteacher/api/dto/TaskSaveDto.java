@@ -1,27 +1,26 @@
 package com.goodteacher.api.dto;
 
-import com.goodteacher.api.entity.Task;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.time.LocalDate;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskQuizOnlyDTO {
+public class TaskSaveDto {
     // region Fields
     @NotNull
     private Long id;
     @NotNull
-    @NotBlank
     private String name;
+    private String text;
     private String quiz;
+    @NotNull
+    private LocalDate creationDate;
 
     // endregion
 
