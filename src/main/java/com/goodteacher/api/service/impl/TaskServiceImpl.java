@@ -46,9 +46,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskDto save(final TaskSaveDto taskSaveDto) {
         final Task taskEntity = TaskMapper.fromSaveDtoToEntity(taskSaveDto);
 
-        this.taskRepository.save(taskEntity);
-
-        return TaskMapper.fromEntityToDto(taskEntity);
+        return TaskMapper.fromEntityToDto(this.taskRepository.save(taskEntity));
     }
 
     @Override

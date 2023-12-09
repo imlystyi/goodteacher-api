@@ -14,18 +14,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDto {
-    private Long id = 0L;
-    @NotNull
-    @NotBlank
+    private Long id;
+
     private String name;
+
     private String text;
+
     private String quiz;
+
     private LocalDate creationDate;
+
     private String authorName;
-
-    // endregion
-
-    // region Methods
-
-    // endregion
 }

@@ -1,6 +1,7 @@
 package com.goodteacher.api.service.impl;
 
 import com.goodteacher.api.dto.GroupDto;
+import com.goodteacher.api.dto.GroupSaveDto;
 import com.goodteacher.api.dto.StudentDto;
 import com.goodteacher.api.dto.TeacherDto;
 import com.goodteacher.api.entity.Group;
@@ -29,12 +30,10 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupDto save(final GroupDto groupDto) {
-        final Group groupEntity = this.groupRepository.save(GroupMapper.fromDtoToEntity(groupDto));
+    public GroupDto save(final GroupSaveDto groupSaveDto) {
+        final Group groupEntity = GroupMapper.fromSaveDtoToEntity(groupSaveDto);
 
-        groupDto.setId(groupEntity.getId());
-
-        return groupDto;
+        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
     }
 
     @Override
@@ -97,7 +96,7 @@ public class GroupServiceImpl implements GroupService {
 
     private Group findByIdStream(final Long id) {
         return this.groupRepository.findByIdAndIsActiveTrue(id)
-                                     .orElseThrow(() -> new NotFoundException(
-                                             "Group with id %d not found".formatted(id)));
+                                   .orElseThrow(() -> new NotFoundException(
+                                           "Group with id %d not found".formatted(id)));
     }
 }

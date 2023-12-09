@@ -44,9 +44,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     public AssignmentDto saveOne(final AssignmentSaveDto assignmentSaveDto) {
         final Assignment assignmentEntity = AssignmentMapper.fromSaveDtoToEntity(assignmentSaveDto);
 
-        this.assignmentRepository.save(assignmentEntity);
-
-        return AssignmentMapper.fromEntityToDto(assignmentEntity);
+        return AssignmentMapper.fromEntityToDto(this.assignmentRepository.save(assignmentEntity));
     }
 
     @Override

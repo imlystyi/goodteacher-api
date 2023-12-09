@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -20,7 +19,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
     @Column
@@ -35,7 +34,7 @@ public class Task {
     @Column
     private String authorName;
 
-    @Column(nullable = false)
+    @Column
     @Builder.Default
     private Boolean isActive = Boolean.TRUE;
 

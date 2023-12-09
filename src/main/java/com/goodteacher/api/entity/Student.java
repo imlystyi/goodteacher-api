@@ -6,44 +6,44 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@EqualsAndHashCode
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "students")
+@EqualsAndHashCode
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
-    @Column(nullable = false)
+    @Column
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
-    @Column(nullable = false)
+    @Column
     private String firstName;
 
-    @Column(nullable = false)
+    @Column
     private String lastName;
 
     @Column
     private String patronymic;
 
-    @Column(nullable = false)
+    @Column
     private LocalDate birthDate;
 
-    @Column(nullable = false)
+    @Column
     @Builder.Default
     private Boolean isActive = Boolean.TRUE;
 
-    @Column(nullable = false)
+    @Column
     private int entryYear;
 
     @OneToMany(mappedBy = "student")

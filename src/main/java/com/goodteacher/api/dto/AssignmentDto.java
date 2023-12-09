@@ -13,13 +13,22 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AssignmentDto {
     private Long id;
+
     private String title;
+
     private TaskDto task;
+
     private StudentDto student;
+
     private TeacherDto teacher;
+
     private Double grade;
+
     private String comment;
+
     private LocalDate deadline;
+
     private LocalDate closingDate;
+
     private Boolean isClosed;
 }

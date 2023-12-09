@@ -1,6 +1,7 @@
 package com.goodteacher.api.mapper;
 
 import com.goodteacher.api.dto.GroupDto;
+import com.goodteacher.api.dto.GroupSaveDto;
 import com.goodteacher.api.entity.Group;
 
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class GroupMapper {
 
     public static Group fromDtoToEntity(final GroupDto dto) {
         return Group.builder()
+                    .id(dto.getId())
                     .name(dto.getName())
                     .about(dto.getAbout())
                     .teacher(TeacherMapper.fromDtoToEntity(dto.getTeacher()))
@@ -30,5 +32,17 @@ public class GroupMapper {
                                  .collect(Collectors.toSet()))
                     .build();
 
+    }
+
+    public static Group fromSaveDtoToEntity(final GroupSaveDto saveDto) {
+        return Group.builder()
+                    .name(saveDto.getName())
+                    .about(saveDto.getAbout())
+                    .teacher(TeacherMapper.fromDtoToEntity(saveDto.getTeacher()))
+                    .students(saveDto.getStudents()
+                                     .stream()
+                                     .map(StudentMapper::fromDtoToEntity)
+                                     .collect(Collectors.toSet()))
+                    .build();
     }
 }

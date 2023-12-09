@@ -4,7 +4,6 @@ import com.goodteacher.api.dto.*;
 
 import java.time.LocalDate;
 import java.util.Set;
-import java.util.UUID;
 
 public interface TeacherService {
     TeacherDto findById(Long id);
