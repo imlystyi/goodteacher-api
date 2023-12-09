@@ -2,6 +2,7 @@ package com.goodteacher.api.resource;
 
 
 import com.goodteacher.api.dto.GroupDto;
+import com.goodteacher.api.dto.GroupSaveDto;
 import com.goodteacher.api.dto.StudentDto;
 import com.goodteacher.api.dto.TeacherDto;
 import com.goodteacher.api.service.GroupService;
@@ -18,8 +19,8 @@ public class GroupResource {
     private final GroupService groupService;
 
     @PostMapping("/create")
-    public ResponseEntity<GroupDto> save(final @RequestBody @Valid GroupDto groupDto) {
-        final GroupDto savedGroupDto = this.groupService.save(groupDto);
+    public ResponseEntity<GroupDto> save(final @RequestBody @Valid GroupSaveDto groupSaveDto) {
+        final GroupDto savedGroupDto = this.groupService.save(groupSaveDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedGroupDto);
 
