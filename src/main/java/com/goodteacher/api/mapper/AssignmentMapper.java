@@ -55,11 +55,19 @@ public class AssignmentMapper {
                          .task(task)
                          .student(student)
                          .teacher(teacher)
-                         .grade(saveDto.getGrade())
-                         .comment(saveDto.getComment())
                          .deadline(saveDto.getDeadline())
-                         .closingDate(saveDto.getClosingDate())
                          .isClosed(saveDto.getIsClosed())
+                         .build();
+    }
+
+    public static Assignment fromSaveGroupDtoToEntity(final AssignmentGroupSaveDto groupSaveDto) {
+        final Task task = TaskMapper.fromDtoToEntity(groupSaveDto.getTask());
+
+        return Assignment.builder()
+                         .title(groupSaveDto.getTitle())
+                         .task(task)
+                         .deadline(groupSaveDto.getDeadline())
+                         .isClosed(groupSaveDto.getIsClosed())
                          .build();
     }
 }

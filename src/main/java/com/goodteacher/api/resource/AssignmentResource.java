@@ -1,10 +1,10 @@
 package com.goodteacher.api.resource;
 
 import com.goodteacher.api.dto.AssignmentDto;
+import com.goodteacher.api.dto.AssignmentGroupSaveDto;
 import com.goodteacher.api.dto.AssignmentSaveDto;
 import com.goodteacher.api.service.AssignmentService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class AssignmentResource {
 
     @GetMapping("/find/title/{title}")
     public ResponseEntity<Set<AssignmentDto>> findByTitle(final @PathVariable String title) {
-        final Set<AssignmentDto> assignmentDtos = this.assignmentService.findAllByTitle(title);
+        final Set<AssignmentDto> assignmentDtos = this.assignmentService.findByTitle(title);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(assignmentDtos);
     }
@@ -40,11 +40,19 @@ public class AssignmentResource {
 
     // region POST mappings
 
-    @PostMapping("/save")
-    public ResponseEntity<AssignmentDto> save(final @RequestBody @Valid AssignmentSaveDto assignmentSaveDto) {
-        final AssignmentDto assignmentDto = this.assignmentService.save(assignmentSaveDto);
+    @PostMapping("/create")
+    public ResponseEntity<AssignmentDto> saveOne(final @RequestBody @Valid AssignmentSaveDto assignmentSaveDto) {
+        final AssignmentDto assignmentDto = this.assignmentService.saveOne(assignmentSaveDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(assignmentDto);
+    }
+
+    @PostMapping("/create-group/{groupId}")
+    public ResponseEntity<Void> saveGroup(final @PathVariable Long groupId,
+                                          final @RequestBody @Valid AssignmentGroupSaveDto assignmentGroupSaveDto) {
+        this.assignmentService.saveGroup(assignmentGroupSaveDto, groupId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // endregion

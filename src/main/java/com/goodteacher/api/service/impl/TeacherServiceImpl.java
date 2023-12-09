@@ -1,6 +1,9 @@
 package com.goodteacher.api.service.impl;
 
-import com.goodteacher.api.dto.*;
+import com.goodteacher.api.dto.NameDto;
+import com.goodteacher.api.dto.TeacherDto;
+import com.goodteacher.api.dto.TeacherInfoDto;
+import com.goodteacher.api.dto.UserDto;
 import com.goodteacher.api.entity.Teacher;
 import com.goodteacher.api.exception.ConflictException;
 import com.goodteacher.api.exception.NotFoundException;
@@ -9,7 +12,7 @@ import com.goodteacher.api.repository.TeacherRepository;
 import com.goodteacher.api.service.TeacherService;
 import com.goodteacher.api.service.UserService;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TeacherServiceImpl implements TeacherService {
     private final TeacherRepository teacherRepository;
 

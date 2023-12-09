@@ -1,98 +1,103 @@
-// BAD YET
-
 package com.goodteacher.api.service.impl;
 
 import com.goodteacher.api.dto.GroupDto;
-import com.goodteacher.api.entity.Assignment;
+import com.goodteacher.api.dto.StudentDto;
+import com.goodteacher.api.dto.TeacherDto;
 import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Student;
-import com.goodteacher.api.entity.Teacher;
+import com.goodteacher.api.exception.NotFoundException;
+import com.goodteacher.api.mapper.GroupMapper;
+import com.goodteacher.api.mapper.StudentMapper;
+import com.goodteacher.api.mapper.TeacherMapper;
 import com.goodteacher.api.repository.GroupRepository;
-import com.goodteacher.api.repository.StudentRepository;
-import com.goodteacher.api.repository.TeacherRepository;
 import com.goodteacher.api.service.GroupService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class GroupServiceImpl implements GroupService {
-    private StudentRepository studentRepository;
-    private TeacherRepository teacherRepository;
-    private GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
 
-    public GroupDto findDTOById(final UUID id) {
-        final Group group = findById(id);
+    @Override
+    public GroupDto findById(final Long id) {
+        final Group groupEntity = this.findByIdStream(id);
 
-        return GroupDto.toDTO(group);
+        return GroupMapper.fromEntityToDto(groupEntity);
     }
 
     @Override
-    public GroupDto createGroup(GroupDto groupDto) {
-        final Group group = new Group();
-        //group.setId(groupDto.getId());
-        group.setName(groupDto.getName());
-        group.setAbout(groupDto.getAbout());
-        return GroupDto.toDTO(group);
+    public GroupDto save(final GroupDto groupDto) {
+        final Group groupEntity = this.groupRepository.save(GroupMapper.fromDtoToEntity(groupDto));
 
-    }
+        groupDto.setId(groupEntity.getId());
 
-    @Override
-    public void deleteGroupById(final UUID groupId){
-        groupRepository.getReferenceById(groupId).setIsActive(false);
+        return groupDto;
     }
 
     @Override
-    public void addStudentToGroup(final UUID groupId, final UUID studentId){
-        //Student student = studentRepository.getReferenceById(studentId);
-        //groupRepository.getReferenceById(groupId).getStudents().add(student);
+    public GroupDto updateName(final Long id, final String name) {
+        final Group groupEntity = this.findByIdStream(id);
+
+        groupEntity.setName(name);
+
+        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
     }
 
     @Override
-    public void deleteStudentFromGroup(final UUID groupId, final UUID studentId){
-        //Student student = studentRepository.getReferenceById(studentId);
-        //groupRepository.getReferenceById(groupId).getStudents().remove(student);
+    public GroupDto updateTeacher(final Long id, final TeacherDto teacherDto) {
+        final Group groupEntity = this.findByIdStream(id);
+
+        groupEntity.setTeacher(TeacherMapper.fromDtoToEntity(teacherDto));
+
+        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
     }
 
     @Override
-    public void changeTeacherInGroup(final UUID groupId, final Teacher teacher) {
-        groupRepository.getReferenceById(groupId).setTeacher(teacher);
-    }
-    @Override
-    public void changeGroupAbout(final UUID groupId, final String about){
-        groupRepository.getReferenceById(groupId).setAbout(about);
-    }
-    @Override
-    public void createAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment){
-        groupRepository.getReferenceById(groupId).getStudents().forEach(student ->
-                student.getAssignments().add(assignment));
-    }
-    @Override
-    public void updateAssignmentForAllStudentsInGroup(final UUID groupId, final Assignment assignment, final UUID assignmentId){
+    public GroupDto updateAbout(final Long id, final String about) {
+        final Group groupEntity = this.findByIdStream(id);
 
-        groupRepository.getReferenceById(groupId).getStudents().forEach(student ->{
-            Assignment assignment1 =
-                    student.getAssignments().stream().
-                            filter(ass -> ass.getId().equals(assignmentId)).findAny().orElse(null);
+        groupEntity.setAbout(about);
 
-            student.getAssignments().remove(assignment1);
-            student.getAssignments().add(assignment);
-        });
+        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
     }
+
     @Override
-    public void deleteAssignmentForAllStudentsInGroup(final UUID groupId, final UUID assignmentId){
-        groupRepository.getReferenceById(groupId).getStudents().forEach(student -> {
-            Assignment assignment =
-                    student.getAssignments().stream().
-                            filter(ass -> ass.getId().equals(assignmentId)).findAny().orElse(null);
+    public GroupDto addStudent(final Long id, final StudentDto studentDto) {
+        final Group groupEntity = this.findByIdStream(id);
 
-            student.getAssignments().remove(assignment);
-        });
+        final Student studentEntity = StudentMapper.fromDtoToEntity(studentDto);
+
+        groupEntity.getStudents().add(studentEntity);
+
+        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
     }
-    private Group findById(final UUID id) {
-        return groupRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Group not found."));
+
+    @Override
+    public GroupDto deleteStudent(final Long id, final StudentDto studentDto) {
+        final Group groupEntity = this.findByIdStream(id);
+
+        final Student studentEntity = StudentMapper.fromDtoToEntity(studentDto);
+
+        groupEntity.getStudents().remove(studentEntity);
+
+        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
+    }
+
+    @Override
+    public void delete(final Long id) {
+        final Group groupEntity = this.findByIdStream(id);
+
+        groupEntity.setIsActive(Boolean.FALSE);
+
+        this.groupRepository.save(groupEntity);
+    }
+
+    private Group findByIdStream(final Long id) {
+        return this.groupRepository.findByIdAndIsActiveTrue(id)
+                                     .orElseThrow(() -> new NotFoundException(
+                                             "Group with id %d not found".formatted(id)));
     }
 }

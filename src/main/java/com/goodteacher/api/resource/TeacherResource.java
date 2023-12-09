@@ -44,9 +44,9 @@ public class TeacherResource {
 
     @PostMapping("/create")
     public ResponseEntity<TeacherDto> save(final @RequestBody @Valid UserDto userDto) {
-        final TeacherDto foundTeacherDto = this.teacherService.save(userDto);
+        final TeacherDto savedTeacherDto = this.teacherService.save(userDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(foundTeacherDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTeacherDto);
     }
 
     @PatchMapping("/update-email/{id}/{email}")

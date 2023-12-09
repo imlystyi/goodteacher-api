@@ -10,18 +10,12 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssignmentSaveDto {
+public class AssignmentGroupSaveDto {
     @NotNull
     private String title;
 
     @NotNull
     private TaskDto task;
-
-    @NotNull
-    private StudentDto student;
-
-    @NotNull
-    private TeacherDto teacher;
 
     private LocalDate deadline;
 

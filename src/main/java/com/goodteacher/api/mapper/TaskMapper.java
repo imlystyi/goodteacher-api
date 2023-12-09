@@ -3,6 +3,7 @@
 package com.goodteacher.api.mapper;
 
 import com.goodteacher.api.dto.TaskDto;
+import com.goodteacher.api.dto.TaskSaveDto;
 import com.goodteacher.api.entity.Task;
 
 public class TaskMapper {
@@ -18,9 +19,18 @@ public class TaskMapper {
     }
 
     public static Task fromDtoToEntity(final TaskDto saveDto) {
-
         return Task.builder()
                 .id(saveDto.getId())
+                .name(saveDto.getName())
+                .text(saveDto.getText())
+                .quiz(saveDto.getQuiz())
+                .creationDate(saveDto.getCreationDate())
+                .authorName(saveDto.getAuthorName())
+                .build();
+    }
+
+    public static Task fromSaveDtoToEntity(TaskSaveDto saveDto) {
+        return Task.builder()
                 .name(saveDto.getName())
                 .text(saveDto.getText())
                 .quiz(saveDto.getQuiz())

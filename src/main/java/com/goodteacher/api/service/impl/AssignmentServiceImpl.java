@@ -1,12 +1,14 @@
 package com.goodteacher.api.service.impl;
 
-import com.goodteacher.api.dto.AssignmentDto;
-import com.goodteacher.api.dto.AssignmentSaveDto;
+import com.goodteacher.api.dto.*;
 import com.goodteacher.api.entity.Assignment;
 import com.goodteacher.api.exception.NotFoundException;
 import com.goodteacher.api.mapper.AssignmentMapper;
+import com.goodteacher.api.mapper.StudentMapper;
+import com.goodteacher.api.mapper.TeacherMapper;
 import com.goodteacher.api.repository.AssignmentRepository;
 import com.goodteacher.api.service.AssignmentService;
+import com.goodteacher.api.service.GroupService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
 
+    private final GroupService groupService;
+
     @Override
     public AssignmentDto findById(final Long id) {
         final Assignment assignmentEntity = this.findByIdStream(id);
@@ -29,7 +33,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Set<AssignmentDto> findAllByTitle(final String title) {
+    public Set<AssignmentDto> findByTitle(final String title) {
         return this.findAllByTitleStream(title)
                    .stream()
                    .map(AssignmentMapper::fromEntityToDto)
@@ -37,12 +41,26 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public AssignmentDto save(final AssignmentSaveDto assignmentSaveDto) {
+    public AssignmentDto saveOne(final AssignmentSaveDto assignmentSaveDto) {
         final Assignment assignmentEntity = AssignmentMapper.fromSaveDtoToEntity(assignmentSaveDto);
 
         this.assignmentRepository.save(assignmentEntity);
 
         return AssignmentMapper.fromEntityToDto(assignmentEntity);
+    }
+
+    @Override
+    public void saveGroup(final AssignmentGroupSaveDto assignmentGroupSaveDto, final Long groupId) {
+        final GroupDto groupDto = this.groupService.findById(groupId);
+
+        for (final StudentDto s : groupDto.getStudents()) {
+            final Assignment assignmentEntity = AssignmentMapper.fromSaveGroupDtoToEntity(assignmentGroupSaveDto);
+
+            assignmentEntity.setTeacher(TeacherMapper.fromDtoToEntity(groupDto.getTeacher()));
+            assignmentEntity.setStudent(StudentMapper.fromDtoToEntity(s));
+
+            this.assignmentRepository.save(assignmentEntity);
+        }
     }
 
     @Override

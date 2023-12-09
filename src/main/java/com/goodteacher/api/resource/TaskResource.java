@@ -1,18 +1,15 @@
 package com.goodteacher.api.resource;
 
-import com.goodteacher.api.dto.AssignmentDto;
-import com.goodteacher.api.dto.AssignmentSaveDto;
 import com.goodteacher.api.dto.TaskDto;
 import com.goodteacher.api.dto.TaskSaveDto;
 import com.goodteacher.api.service.TaskService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -21,41 +18,37 @@ public class TaskResource {
     private final TaskService taskService;
 
     @GetMapping("/find/id/{id}")
-    public ResponseEntity<TaskDto> findById(final @PathVariable @Positive Long id) {
-        final TaskDto taskDto = this.taskService.findById(id);
+    public ResponseEntity<TaskDto> findById(final @PathVariable Long id) {
+        final TaskDto foundTaskDto = this.taskService.findById(id);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(taskDto);
+        return ResponseEntity.status(HttpStatus.FOUND).body(foundTaskDto);
     }
+
     @GetMapping("/find/name/{name}")
-    public ResponseEntity<TaskDto> findByName(final @RequestBody String name){
-        final TaskDto foundTask = this.taskService.findByName(name);
-        return ResponseEntity.status(HttpStatus.FOUND).body(foundTask);
+    public ResponseEntity<Set<TaskDto>> findAllByName(final @PathVariable String name) {
+        final Set<TaskDto> foundTaskDtos = this.taskService.findAllByName(name);
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(foundTaskDtos);
     }
 
-    @GetMapping("/find/author-name/{authorname}")
-    public ResponseEntity<TaskDto> findByAuthorName(final @RequestBody String authorname){
-        final TaskDto foundTask = this.taskService.findByAuthorName(authorname);
-        return ResponseEntity.status(HttpStatus.FOUND).body(foundTask);
+    @GetMapping("/find/author-name/{authorName}")
+    public ResponseEntity<Set<TaskDto>> findAllByAuthorName(final @PathVariable String authorName) {
+        final Set<TaskDto> foundTaskDtos = this.taskService.findAllByAuthorName(authorName);
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(foundTaskDtos);
     }
 
-    @GetMapping("/find/alltasks")
-    public ResponseEntity<List<TaskDto>> findAllByName(final @RequestBody String name){
-        final List<TaskDto> foundTasks = this.taskService.findAllByName(name);
-        return ResponseEntity.status(HttpStatus.FOUND).body(foundTasks);
-    }
+    @PostMapping("/create")
+    public ResponseEntity<TaskDto> save(final @RequestBody @Valid TaskSaveDto taskSaveDto) {
+        final TaskDto savedTaskDto = this.taskService.save(taskSaveDto);
 
-    @PostMapping("/save")
-    public ResponseEntity<TaskDto> save(final @RequestBody @Valid TaskDto taskSaveDto) {
-        final TaskDto taskDto = this.taskService.save(taskSaveDto);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTaskDto);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteById(final @PathVariable @Positive Long id) {
+    public ResponseEntity<Void> deleteById(final @PathVariable Long id) {
         this.taskService.delete(id);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 }

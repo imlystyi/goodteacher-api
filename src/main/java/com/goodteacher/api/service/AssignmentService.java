@@ -1,6 +1,7 @@
 package com.goodteacher.api.service;
 
 import com.goodteacher.api.dto.AssignmentDto;
+import com.goodteacher.api.dto.AssignmentGroupSaveDto;
 import com.goodteacher.api.dto.AssignmentSaveDto;
 
 import java.time.LocalDate;
@@ -9,9 +10,11 @@ import java.util.Set;
 public interface AssignmentService {
     AssignmentDto findById(Long id);
 
-    Set<AssignmentDto> findAllByTitle(String title);
+    Set<AssignmentDto> findByTitle(String title);
 
-    AssignmentDto save(AssignmentSaveDto assignmentSaveDto);
+    AssignmentDto saveOne(AssignmentSaveDto assignmentSaveDto);
+
+    void saveGroup(AssignmentGroupSaveDto assignmentGroupSaveDto, Long groupId);
 
     AssignmentDto grade(Long id, Double grade);
 

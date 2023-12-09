@@ -8,16 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDto {
-    // region Fields
-    @NotNull
-    private Long id;
+    private Long id = 0L;
     @NotNull
     @NotBlank
     private String name;

@@ -2,7 +2,6 @@ package com.goodteacher.api.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -13,8 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "students")
-@PrimaryKeyJoinColumn(name = "id")
-@SuperBuilder
+@Builder
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

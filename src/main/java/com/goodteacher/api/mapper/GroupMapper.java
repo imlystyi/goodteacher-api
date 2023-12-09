@@ -21,7 +21,6 @@ public class GroupMapper {
 
     public static Group fromDtoToEntity(final GroupDto dto) {
         return Group.builder()
-                    .id(dto.getId())
                     .name(dto.getName())
                     .about(dto.getAbout())
                     .teacher(TeacherMapper.fromDtoToEntity(dto.getTeacher()))
