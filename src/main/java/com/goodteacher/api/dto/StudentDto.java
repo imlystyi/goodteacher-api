@@ -1,16 +1,37 @@
 package com.goodteacher.api.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentDto {
-    private int entryYear;
-    private Set<AssignmentDto> assignments;
+    private Long id;
 
-    // TODO-1, Vladyslav: Uncomment this when GroupDto is implemented
-    //private Set<GroupDto> groups;
+    private String nickname;
+
+    private String email;
+
+    private String password;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String patronymic;
+
+    private LocalDate birthDate;
+
+    @Builder.Default
+    private Set<AssignmentDto> assignments = Set.of();
+
+    @Builder.Default
+    private Set<GroupDto> groups = Set.of();
 }

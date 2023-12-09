@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeacherInfoDto {
+    private Long id;
+
     private String about;
+
     private String status;
 }

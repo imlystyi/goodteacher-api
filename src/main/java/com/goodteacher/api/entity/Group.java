@@ -8,23 +8,21 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name="groups")
 public class Group {
     @Id
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -40,5 +38,6 @@ public class Group {
     private Set<Student> students;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isActive = Boolean.TRUE;
 }

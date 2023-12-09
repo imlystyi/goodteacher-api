@@ -32,7 +32,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public GroupDto createGroup(GroupDto groupDto) {
         final Group group = new Group();
-        group.setId(groupDto.getId());
+        //group.setId(groupDto.getId());
         group.setName(groupDto.getName());
         group.setAbout(groupDto.getAbout());
         return GroupDto.toDTO(group);
@@ -46,14 +46,14 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void addStudentToGroup(final UUID groupId, final UUID studentId){
-        Student student = studentRepository.getReferenceById(studentId);
-        groupRepository.getReferenceById(groupId).getStudents().add(student);
+        //Student student = studentRepository.getReferenceById(studentId);
+        //groupRepository.getReferenceById(groupId).getStudents().add(student);
     }
 
     @Override
     public void deleteStudentFromGroup(final UUID groupId, final UUID studentId){
-        Student student = studentRepository.getReferenceById(studentId);
-        groupRepository.getReferenceById(groupId).getStudents().remove(student);
+        //Student student = studentRepository.getReferenceById(studentId);
+        //groupRepository.getReferenceById(groupId).getStudents().remove(student);
     }
 
     @Override

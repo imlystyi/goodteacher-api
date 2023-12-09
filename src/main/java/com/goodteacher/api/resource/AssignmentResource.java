@@ -119,7 +119,7 @@ public class AssignmentResource {
     public ResponseEntity<?> deleteById(final @PathVariable @Positive Long id) {
         this.assignmentService.delete(id);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     // endregion

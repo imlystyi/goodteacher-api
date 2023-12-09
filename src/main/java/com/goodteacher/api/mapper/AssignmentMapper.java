@@ -26,6 +26,25 @@ public class AssignmentMapper {
                             .build();
     }
 
+    public static Assignment fromDtoToEntity(final AssignmentDto dto) {
+        final Task task = TaskMapper.fromDtoToEntity(dto.getTask());
+        final Student student = StudentMapper.fromDtoToEntity(dto.getStudent());
+        final Teacher teacher = TeacherMapper.fromDtoToEntity(dto.getTeacher());
+
+        return Assignment.builder()
+                         .id(dto.getId())
+                         .title(dto.getTitle())
+                         .task(task)
+                         .student(student)
+                         .teacher(teacher)
+                         .grade(dto.getGrade())
+                         .comment(dto.getComment())
+                         .deadline(dto.getDeadline())
+                         .closingDate(dto.getClosingDate())
+                         .isClosed(dto.getIsClosed())
+                         .build();
+    }
+
     public static Assignment fromSaveDtoToEntity(final AssignmentSaveDto saveDto) {
         final Task task = TaskMapper.fromDtoToEntity(saveDto.getTask());
         final Student student = StudentMapper.fromDtoToEntity(saveDto.getStudent());

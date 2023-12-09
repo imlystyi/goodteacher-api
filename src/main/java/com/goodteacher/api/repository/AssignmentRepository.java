@@ -5,6 +5,7 @@ import com.goodteacher.api.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -12,5 +13,7 @@ import java.util.Set;
  */
 @Repository
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
-    Set<Assignment> findAllByTitle(String title);
+    Optional<Assignment> findByIdAndIsActiveTrue(final Long id);
+
+    Set<Assignment> findAllByTitleAndIsActiveTrue(String title);
 }

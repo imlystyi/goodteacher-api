@@ -1,12 +1,29 @@
 package com.goodteacher.api.service;
 
-import com.goodteacher.api.dto.TeacherDto;
-import com.goodteacher.api.dto.TeacherInfoDto;
+import com.goodteacher.api.dto.*;
 
+import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 public interface TeacherService {
-    TeacherDto create(final UUID dto);
+    TeacherDto findById(Long id);
 
-    TeacherDto updateInfo(final TeacherInfoDto dto);
+    TeacherDto findByNickname(String nickname);
+
+    Set<TeacherDto> findAllByName(NameDto nameDto);
+
+    TeacherDto save(final UserDto userDto);
+
+    void updateEmail(Long id, String email);
+
+    void updatePassword(Long id, String password);
+
+    TeacherDto updateName(Long id, NameDto nameDto);
+
+    TeacherDto updateBirthDate(Long id, LocalDate birthDate);
+
+    TeacherDto updateInfo(TeacherInfoDto teacherInfoDto);
+
+    void delete(Long id);
 }

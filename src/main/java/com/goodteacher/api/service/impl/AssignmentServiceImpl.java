@@ -112,16 +112,16 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     private Assignment findByIdStream(final Long id) {
-        return this.assignmentRepository.findById(id)
+        return this.assignmentRepository.findByIdAndIsActiveTrue(id)
                                         .orElseThrow(() -> new NotFoundException(
                                                 "Assignment with id %d not found".formatted(id)));
     }
 
     private Set<Assignment> findAllByTitleStream(final String title) {
-        final Set<Assignment> assignmentEntities = this.assignmentRepository.findAllByTitle(title);
+        final Set<Assignment> assignmentEntities = this.assignmentRepository.findAllByTitleAndIsActiveTrue(title);
 
         if (assignmentEntities.isEmpty()) {
-            throw new NotFoundException("Assignments with \"%s\" title not found.".formatted(title));
+            throw new NotFoundException("Assignments with %s title not found.".formatted(title));
         }
 
         return assignmentEntities;

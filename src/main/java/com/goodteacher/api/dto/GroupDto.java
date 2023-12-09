@@ -14,20 +14,25 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupDto {
-    private UUID id;
-    private Set<UUID> studentsId;
-    private UUID teacherId;
+    private Long id;
+
     private String name;
+
     private String about;
+
+    private TeacherDto teacher;
+
+    private Set<StudentDto> students;
 
 
     public static GroupDto toDTO(final Group group) {
         GroupDto groupDTO = new GroupDto();
 
-        groupDTO.setId(group.getId());
+        //groupDTO.setId(group.getId());
         //groupDTO.setStudentsId(group.getStudents().stream().map(Student::getId).collect(Collectors.toSet()));
         //groupDTO.setTeacherId(group.getTeacher().getId());
         groupDTO.setName(group.getName());
