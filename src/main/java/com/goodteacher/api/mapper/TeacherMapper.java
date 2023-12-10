@@ -27,6 +27,7 @@ public class TeacherMapper {
 
     public static Teacher fromDtoToEntity(final TeacherDto dto) {
         return Teacher.builder()
+                      .id(dto.getId())
                       .nickname(dto.getNickname())
                       .email(dto.getEmail())
                       .password(dto.getPassword())
@@ -39,7 +40,7 @@ public class TeacherMapper {
                       .groups(dto.getGroups()
                                  .stream()
                                  .map(GroupMapper::fromDtoToEntity)
-                                 .collect(Collectors.toSet()))
+                                 .collect(Collectors.toList()))
                       .build();
     }
 }

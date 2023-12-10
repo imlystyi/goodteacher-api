@@ -29,7 +29,7 @@ public class TaskMapper {
                 .build();
     }
 
-    public static Task fromSaveDtoToEntity(TaskSaveDto saveDto) {
+    public static Task fromSaveDtoToEntity(final TaskSaveDto saveDto) {
         return Task.builder()
                 .name(saveDto.getName())
                 .text(saveDto.getText())

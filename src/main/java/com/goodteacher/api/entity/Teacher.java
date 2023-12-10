@@ -5,11 +5,12 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @EqualsAndHashCode
 @Data
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -54,6 +55,5 @@ public class Teacher {
     @JoinTable(name = "teacher_groups",
                joinColumns = @JoinColumn(name = "teacher_id"),
                inverseJoinColumns = @JoinColumn(name = "group_id"))
-    @Builder.Default
-    private Set<Group> groups = Set.of();
+    private List<Group> groups;
 }

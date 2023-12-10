@@ -59,9 +59,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private Task findByIdStream(final Long id) {
-        return this.taskRepository.findById(id)
+        return this.taskRepository.findByIdAndIsActiveTrue(id)
                                   .orElseThrow(() -> new NotFoundException(
-                                          "Assignment with id %d not found".formatted(id)));
+                                          "Task with id %d not found".formatted(id)));
     }
 
     private Set<Task> findAllByNameStream(final String name) {

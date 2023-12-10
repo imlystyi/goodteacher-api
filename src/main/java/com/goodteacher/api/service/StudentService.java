@@ -20,6 +20,7 @@ public interface StudentService {
      */
     StudentDto findById(Long id);
 
+    // TODO: Provide signing in
     StudentDto findByNickname(String nickname);
 
     Set<StudentDto> findAllByName(NameDto nameDto);

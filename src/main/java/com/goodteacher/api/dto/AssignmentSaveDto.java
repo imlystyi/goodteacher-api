@@ -16,18 +16,15 @@ public class AssignmentSaveDto {
     private String title;
 
     @NotNull
-    private TaskDto task;
+    private Long taskId;
 
     @NotNull
-    private StudentDto student;
+    private Long studentId;
 
     @NotNull
-    private TeacherDto teacher;
+    private Long teacherId;
 
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate deadline;
-
-    @NotNull
-    private Boolean isClosed;
 }
