@@ -12,6 +12,7 @@ public interface TeacherService {
 
     Set<TeacherDto> findAllByName(NameDto nameDto);
 
+    // TODO: Provide signing in
     TeacherDto save(final UserDto userDto);
 
     void updateEmail(Long id, String email);

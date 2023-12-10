@@ -18,9 +18,9 @@ public class AssignmentDto {
 
     private TaskDto task;
 
-    private StudentDto student;
+    private Long studentId;
 
-    private TeacherDto teacher;
+    private Long teacherId;
 
     private Double grade;
 

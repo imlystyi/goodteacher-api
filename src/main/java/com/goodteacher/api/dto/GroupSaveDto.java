@@ -18,9 +18,11 @@ public class GroupSaveDto {
 
     private String about;
 
+    // TODO: Checking if teacher exists
     @NotNull
-    private TeacherDto teacher;
+    private Long teacherId;
 
+    // TODO: Checking if student exists
     @NotNull
-    private Set<StudentDto> students;
+    private Set<Long> studentIds;
 }

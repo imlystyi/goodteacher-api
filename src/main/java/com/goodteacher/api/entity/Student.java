@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,12 +48,13 @@ public class Student {
     @Column
     private int entryYear;
 
+    // TODO: Fix sets updating
     @OneToMany(mappedBy = "student")
-    private Set<Assignment> assignments;
+    private List<Assignment> assignments;
 
     @ManyToMany
     @JoinTable(name = "students_groups",
                joinColumns = @JoinColumn(name = "student_id"),
                inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private Set<Group> groups;
+    private List<Group> groups;
 }

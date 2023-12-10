@@ -16,12 +16,9 @@ public class AssignmentGroupSaveDto {
     private String title;
 
     @NotNull
-    private TaskDto task;
+    private Long taskId;
 
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate deadline;
-
-    @NotNull
-    private Boolean isClosed;
 }

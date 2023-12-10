@@ -29,6 +29,7 @@ public class StudentMapper {
 
     public static Student fromDtoToEntity(final StudentDto dto) {
         return Student.builder()
+                      .id(dto.getId())
                       .nickname(dto.getNickname())
                       .email(dto.getEmail())
                       .password(dto.getPassword())
@@ -39,11 +40,11 @@ public class StudentMapper {
                       .assignments(dto.getAssignments()
                                       .stream()
                                       .map(AssignmentMapper::fromDtoToEntity)
-                                      .collect(Collectors.toSet()))
+                                      .collect(Collectors.toList()))
                       .groups(dto.getGroups()
                                  .stream()
                                  .map(GroupMapper::fromDtoToEntity)
-                                 .collect(Collectors.toSet()))
+                                 .collect(Collectors.toList()))
                       .build();
     }
 }

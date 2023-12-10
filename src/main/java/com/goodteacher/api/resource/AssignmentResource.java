@@ -42,7 +42,7 @@ public class AssignmentResource {
 
     @PostMapping("/create")
     public ResponseEntity<AssignmentDto> saveOne(final @RequestBody @Valid AssignmentSaveDto assignmentSaveDto) {
-        final AssignmentDto assignmentDto = this.assignmentService.saveOne(assignmentSaveDto);
+        final AssignmentDto assignmentDto = this.assignmentService.save(assignmentSaveDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(assignmentDto);
     }

@@ -137,8 +137,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     private Teacher findByIdStream(final Long id) {
         return this.teacherRepository.findByIdAndIsActiveTrue(id)
-                                     .orElseThrow(
-                                             () -> new NotFoundException("Teacher with id %d not found".formatted(id)));
+                                     .orElseThrow(() -> new NotFoundException(
+                                             "Teacher with id %d not found".formatted(id)));
     }
 
     private Teacher findByNicknameStream(final String nickname) {

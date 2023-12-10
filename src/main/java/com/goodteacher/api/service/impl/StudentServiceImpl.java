@@ -127,8 +127,8 @@ public class StudentServiceImpl implements StudentService {
 
     private Student findByIdStream(final Long id) {
         return this.studentRepository.findByIdAndIsActiveTrue(id)
-                                     .orElseThrow(
-                                             () -> new NotFoundException("Student with id %d not found".formatted(id)));
+                                     .orElseThrow(() -> new NotFoundException(
+                                             "Student with id %d not found".formatted(id)));
     }
 
     private Student findByNicknameStream(final String nickname) {

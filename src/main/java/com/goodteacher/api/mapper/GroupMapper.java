@@ -22,14 +22,13 @@ public class GroupMapper {
 
     public static Group fromDtoToEntity(final GroupDto dto) {
         return Group.builder()
-                    .id(dto.getId())
                     .name(dto.getName())
                     .about(dto.getAbout())
                     .teacher(TeacherMapper.fromDtoToEntity(dto.getTeacher()))
                     .students(dto.getStudents()
                                  .stream()
                                  .map(StudentMapper::fromDtoToEntity)
-                                 .collect(Collectors.toSet()))
+                                 .collect(Collectors.toList()))
                     .build();
 
     }
@@ -38,11 +37,11 @@ public class GroupMapper {
         return Group.builder()
                     .name(saveDto.getName())
                     .about(saveDto.getAbout())
-                    .teacher(TeacherMapper.fromDtoToEntity(saveDto.getTeacher()))
-                    .students(saveDto.getStudents()
-                                     .stream()
-                                     .map(StudentMapper::fromDtoToEntity)
-                                     .collect(Collectors.toSet()))
+//                    .teacher(TeacherMapper.fromDtoToEntity(saveDto.getTeacherId()))
+//                    .students(saveDto.getStudentIds()
+//                                     .stream()
+//                                     .map(StudentMapper::fromDtoToEntity)
+//                                     .collect(Collectors.toSet()))
                     .build();
     }
 }

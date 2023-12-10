@@ -12,7 +12,7 @@ public interface AssignmentService {
 
     Set<AssignmentDto> findByTitle(String title);
 
-    AssignmentDto saveOne(AssignmentSaveDto assignmentSaveDto);
+    AssignmentDto save(AssignmentSaveDto assignmentSaveDto);
 
     void saveGroup(AssignmentGroupSaveDto assignmentGroupSaveDto, Long groupId);
 

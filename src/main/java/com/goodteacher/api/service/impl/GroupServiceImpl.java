@@ -12,15 +12,22 @@ import com.goodteacher.api.mapper.StudentMapper;
 import com.goodteacher.api.mapper.TeacherMapper;
 import com.goodteacher.api.repository.GroupRepository;
 import com.goodteacher.api.service.GroupService;
+import com.goodteacher.api.service.StudentService;
+import com.goodteacher.api.service.TeacherService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepository;
+
+    private final TeacherService teacherService;
+    private final StudentService studentService;
 
     @Override
     public GroupDto findById(final Long id) {
@@ -32,6 +39,15 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public GroupDto save(final GroupSaveDto groupSaveDto) {
         final Group groupEntity = GroupMapper.fromSaveDtoToEntity(groupSaveDto);
+
+        final Long teacherId = groupSaveDto.getTeacherId();
+        final Set<Long> studentIds = groupSaveDto.getStudentIds();
+
+        groupEntity.setTeacher(TeacherMapper.fromDtoToEntity(this.teacherService.findById(teacherId)));
+        groupEntity.setStudents(studentIds.stream()
+                                          .map(this.studentService::findById)
+                                          .map(StudentMapper::fromDtoToEntity)
+                                          .collect(java.util.stream.Collectors.toList()));
 
         return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
     }
