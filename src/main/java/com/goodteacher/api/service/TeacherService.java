@@ -1,12 +1,15 @@
 package com.goodteacher.api.service;
 
 import com.goodteacher.api.dto.*;
+import com.goodteacher.api.entity.Teacher;
 
 import java.time.LocalDate;
 import java.util.Set;
 
 public interface TeacherService {
     TeacherDto findById(Long id);
+
+    Teacher findEntityById(Long id);
 
     TeacherDto findByNickname(String nickname);
 

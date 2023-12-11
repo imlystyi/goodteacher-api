@@ -10,34 +10,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/message")
+@RequestMapping("/api/messages")
 @RequiredArgsConstructor
 public class MessageResource {
-
     private final MessageService messageService;
 
-    @GetMapping("/find/{messageId}")
-    public ResponseEntity<MessageDto> findById(final @PathVariable Long messageId) {
-
-        final MessageDto foundMessageDto = this.messageService.findById(messageId);
-
-        return ResponseEntity.status(HttpStatus.FOUND).body(foundMessageDto);
-    }
-
-    @GetMapping("/findAll/{userId}")
-    public ResponseEntity<Set<MessageDto>> findByUserId(final @PathVariable Long userId) {
-
-        final Set<MessageDto> foundMessageDto = this.messageService.findByUserId(userId);
+    @GetMapping("/find/id/{id}")
+    public ResponseEntity<MessageDto> findById(final @PathVariable Long id) {
+        final MessageDto foundMessageDto = this.messageService.findById(id);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(foundMessageDto);
     }
 
-    @PostMapping("/send-message")
+    @GetMapping("/find/user-ids/{fromUserId}/{toUserId}")
+    public ResponseEntity<Set<MessageDto>> findByUserIds(final @PathVariable Long fromUserId,
+                                                         final @PathVariable Long toUserId) {
+        final Set<MessageDto> foundMessageDto = this.messageService.findByUserIds(fromUserId, toUserId);
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(foundMessageDto);
+    }
+
+    @PostMapping("/send")
     public ResponseEntity<MessageDto> sendMessage(final @RequestBody MessageSaveDto messageSaveDto) {
 
         final MessageDto savedMessageDto = this.messageService.save(messageSaveDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMessageDto);
     }
-
 }

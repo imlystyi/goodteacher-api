@@ -19,5 +19,4 @@ public class MessageSaveDto {
     @NotNull
     @NotBlank
     private String text;
-
 }

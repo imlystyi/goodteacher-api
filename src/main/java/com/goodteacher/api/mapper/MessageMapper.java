@@ -5,7 +5,6 @@ import com.goodteacher.api.dto.MessageSaveDto;
 import com.goodteacher.api.entity.Message;
 
 public class MessageMapper {
-
     public static MessageDto fromEntityToDto(final Message entity) {
 
         return MessageDto.builder()
@@ -17,18 +16,18 @@ public class MessageMapper {
 
     }
 
-    public static Message fromDtoToEntity(final MessageDto dto) {
+//    public static Message fromDtoToEntity(final MessageDto dto) {
+//
+//        return Message.builder()
+//                .id(dto.getId())
+//                .fromUserId(dto.getFromUserId())
+//                .toUserId(dto.getToUserId())
+//                .text(dto.getText())
+//                .build();
+//
+//    }
 
-        return Message.builder()
-                .id(dto.getId())
-                .fromUserId(dto.getFromUserId())
-                .toUserId(dto.getToUserId())
-                .text(dto.getText())
-                .build();
-
-    }
-
-    public static Message fromSaveDtoToEntity(MessageSaveDto saveDto) {
+    public static Message fromSaveDtoToEntity(final MessageSaveDto saveDto) {
         return Message.builder()
                 .fromUserId(saveDto.getFromUserId())
                 .toUserId(saveDto.getToUserId())

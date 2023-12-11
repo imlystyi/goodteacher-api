@@ -38,18 +38,24 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public GroupDto save(final GroupSaveDto groupSaveDto) {
-        final Group groupEntity = GroupMapper.fromSaveDtoToEntity(groupSaveDto);
+        final Group groupEntity = new Group();
+
+        groupEntity.setName(groupSaveDto.getName());
+        groupEntity.setAbout(groupSaveDto.getAbout());
+
+        // GroupMapper.fromSaveDtoToEntity(groupSaveDto);
 
         final Long teacherId = groupSaveDto.getTeacherId();
         final Set<Long> studentIds = groupSaveDto.getStudentIds();
 
-        groupEntity.setTeacher(TeacherMapper.fromDtoToEntity(this.teacherService.findById(teacherId)));
+        groupEntity.setTeacher(this.teacherService.findEntityById(teacherId));
         groupEntity.setStudents(studentIds.stream()
-                                          .map(this.studentService::findById)
-                                          .map(StudentMapper::fromDtoToEntity)
+                                          .map(this.studentService::findEntityById)
                                           .collect(java.util.stream.Collectors.toList()));
 
-        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
+        final Group savedGroupEntity = this.groupRepository.save(groupEntity);
+
+        return GroupMapper.fromEntityToDto(savedGroupEntity);
     }
 
     @Override

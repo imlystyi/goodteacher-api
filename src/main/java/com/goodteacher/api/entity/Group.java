@@ -6,12 +6,12 @@ import lombok.*;
 import java.util.List;
 import java.util.Set;
 
-@Entity
-@Table(name="groups")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Entity
+@Table(name="groups")
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

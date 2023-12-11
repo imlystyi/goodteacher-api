@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MessageDto {
-
     private Long id;
-    private Long fromUserId;
-    private Long toUserId;
-    private String text;
 
+    private Long fromUserId;
+
+    private Long toUserId;
+
+    private String text;
 }

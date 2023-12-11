@@ -8,43 +8,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-@EqualsAndHashCode
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name="teachers")
-public class Teacher {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column
-    private String nickname;
-
-    @Column
-    private String email;
-
-    @Column
-    private String password;
-
-    @Column
-    private String firstName;
-
-    @Column
-    private String lastName;
-
-    @Column
-    private String patronymic;
-
-    @Column
-    private LocalDate birthDate;
-
-    @Column
-    @Builder.Default
-    private Boolean isActive = Boolean.TRUE;
-
+public class Teacher extends User {
     @Column
     private String about;
 

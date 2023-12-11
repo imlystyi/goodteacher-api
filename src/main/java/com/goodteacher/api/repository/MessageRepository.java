@@ -11,7 +11,6 @@ import java.util.Set;
  */
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-
-    Set<Message> findAllByIsActiveTrue();
+    Set<Message> findAllByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
 
 }

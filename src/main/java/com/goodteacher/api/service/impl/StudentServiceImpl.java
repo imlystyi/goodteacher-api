@@ -34,6 +34,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student findEntityById(final Long id) {
+        return this.findByIdStream(id);
+    }
+
+    @Override
     public StudentDto findByNickname(final String nickname) {
         final Student studentEntity = this.findByNicknameStream(nickname);
 

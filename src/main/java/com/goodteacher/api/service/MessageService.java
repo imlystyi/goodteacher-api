@@ -5,7 +5,8 @@ import com.goodteacher.api.dto.*;
 import java.util.Set;
 
 public interface MessageService {
-    MessageDto save(MessageSaveDto messageSaveDto);
     MessageDto findById(Long id);
-    Set<MessageDto> findByUserId(Long id);
+    Set<MessageDto> findByUserIds(Long fromUserid, Long toUserId);
+
+    MessageDto save(MessageSaveDto messageSaveDto);
 }

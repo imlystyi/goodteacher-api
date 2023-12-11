@@ -7,23 +7,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "message")
+@Table(name = "messages")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private Long fromUserId;
 
-    @Column(nullable = false)
+    @Column
     private Long toUserId;
 
-    @Column(nullable = false)
+    @Column
     private String text;
-
 }

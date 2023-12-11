@@ -11,12 +11,12 @@ import java.time.LocalDate;
 /**
  * Represents a {@link Task} assigned by the {@link Teacher} for a specific {@link Student}.
  */
-@Entity
-@Table(name = "assignments")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "assignments")
 public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

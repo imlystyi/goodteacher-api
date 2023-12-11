@@ -20,12 +20,14 @@ public interface StudentService {
      */
     StudentDto findById(Long id);
 
+    Student findEntityById(Long id);
+
     // TODO: Provide signing in
     StudentDto findByNickname(String nickname);
 
     Set<StudentDto> findAllByName(NameDto nameDto);
 
-    StudentDto save(final UserDto userDto);
+    StudentDto save(UserDto userDto);
 
     void updateEmail(Long id, String email);
 
