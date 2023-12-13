@@ -1,6 +1,7 @@
 package com.goodteacher.api.service;
 
 import com.goodteacher.api.dto.*;
+import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Teacher;
 
 import java.time.LocalDate;
@@ -27,6 +28,14 @@ public interface TeacherService {
     TeacherDto updateBirthDate(Long id, LocalDate birthDate);
 
     TeacherDto updateInfo(TeacherInfoDto teacherInfoDto);
+
+    void addGroup(Long teacherId, Group groupEntity);
+
+    /**
+     * @param id         teacher id
+     * @param groupEntity
+     */
+    void removeGroup(Long id, Group groupEntity);
 
     void delete(Long id);
 }

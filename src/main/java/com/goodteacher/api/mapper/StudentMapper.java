@@ -1,6 +1,7 @@
 package com.goodteacher.api.mapper;
 
 import com.goodteacher.api.dto.StudentDto;
+import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Student;
 
 import java.util.stream.Collectors;
@@ -20,10 +21,10 @@ public class StudentMapper {
                                             .stream()
                                             .map(AssignmentMapper::fromEntityToDto)
                                             .collect(Collectors.toSet()))
-                         .groups(entity.getGroups()
-                                       .stream()
-                                       .map(GroupMapper::fromEntityToDto)
-                                       .collect(Collectors.toSet()))
+                         .groupIds(entity.getGroups()
+                                         .stream()
+                                         .map(Group::getId)
+                                         .collect(Collectors.toSet()))
                          .build();
     }
 
@@ -37,14 +38,6 @@ public class StudentMapper {
                       .lastName(dto.getLastName())
                       .patronymic(dto.getPatronymic())
                       .birthDate(dto.getBirthDate())
-                      .assignments(dto.getAssignments()
-                                      .stream()
-                                      .map(AssignmentMapper::fromDtoToEntity)
-                                      .collect(Collectors.toList()))
-                      .groups(dto.getGroups()
-                                 .stream()
-                                 .map(GroupMapper::fromDtoToEntity)
-                                 .collect(Collectors.toList()))
                       .build();
     }
 }

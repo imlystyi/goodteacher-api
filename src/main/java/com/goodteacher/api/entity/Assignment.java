@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 /**
- * Represents a {@link Task} assigned by the {@link Teacher} for a specific {@link Student}.
+ * Entity that represents {@link Task} that assigned by {@link Teacher} for specific  {@link Student}.
  */
 @Data
 @AllArgsConstructor
@@ -30,12 +30,12 @@ public class Assignment {
     private Task task;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
-
-    @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 
     @Column
     private Double grade;

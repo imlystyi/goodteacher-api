@@ -27,6 +27,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public Task findEntityById(final Long id) {
+        return findByIdStream(id);
+    }
+
+    @Override
     public Set<TaskDto> findAllByName(final String name) {
         return this.findAllByNameStream(name)
                    .stream()

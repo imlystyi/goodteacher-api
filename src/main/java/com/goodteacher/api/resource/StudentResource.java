@@ -88,7 +88,7 @@ public class StudentResource {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(final @PathVariable Long id) {
-        this.studentService.delete(id);
+        this.studentService.remove(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -1,10 +1,21 @@
 package com.goodteacher.api.mapper;
 
-import com.goodteacher.api.dto.*;
+import com.goodteacher.api.dto.AssignmentDto;
+import com.goodteacher.api.dto.AssignmentGroupSaveDto;
+import com.goodteacher.api.dto.AssignmentSaveDto;
+import com.goodteacher.api.dto.TaskDto;
 import com.goodteacher.api.entity.Assignment;
-import com.goodteacher.api.entity.Task;
 
+/**
+ * Mapper for assignment models.
+ */
 public class AssignmentMapper {
+    /**
+     * Converts entity {@link Assignment} to DTO {@link AssignmentDto}.
+     *
+     * @param entity entity to convert as {@link Assignment}.
+     * @return converted entity as {@link AssignmentDto}.
+     */
     public static AssignmentDto fromEntityToDto(final Assignment entity) {
         final TaskDto task = TaskMapper.fromEntityToDto(entity.getTask());
 
@@ -22,21 +33,13 @@ public class AssignmentMapper {
                             .build();
     }
 
-    public static Assignment fromDtoToEntity(final AssignmentDto dto) {
-        final Task task = TaskMapper.fromDtoToEntity(dto.getTask());
-
-        return Assignment.builder()
-                         .id(dto.getId())
-                         .title(dto.getTitle())
-                         .task(task)
-                         .grade(dto.getGrade())
-                         .comment(dto.getComment())
-                         .deadline(dto.getDeadline())
-                         .closingDate(dto.getClosingDate())
-                         .isClosed(dto.getIsClosed())
-                         .build();
-    }
-
+    /**
+     * Partially converts DTO {@link AssignmentSaveDto} to entity {@link Assignment}.<br>
+     * Note that it uses only {@code title} and {@code deadline} fields.</br>
+     *
+     * @param saveDto DTO to convert as {@link AssignmentSaveDto}.
+     * @return converted entity as {@link AssignmentDto}.
+     */
     public static Assignment fromSaveDtoToEntity(final AssignmentSaveDto saveDto) {
         return Assignment.builder()
                          .title(saveDto.getTitle())
@@ -44,6 +47,13 @@ public class AssignmentMapper {
                          .build();
     }
 
+    /**
+     * Partially converts DTO {@link AssignmentGroupSaveDto} to entity {@link Assignment}.<br>
+     * Note that it uses only {@code title} and {@code deadline} fields.</br>
+     *
+     * @param groupSaveDto DTO to convert as {@link AssignmentGroupSaveDto}.
+     * @return converted entity as {@link AssignmentDto}.
+     */
     public static Assignment fromSaveGroupDtoToEntity(final AssignmentGroupSaveDto groupSaveDto) {
         return Assignment.builder()
                          .title(groupSaveDto.getTitle())

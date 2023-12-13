@@ -50,7 +50,7 @@ public class AssignmentResource {
     @PostMapping("/create-group/{groupId}")
     public ResponseEntity<Void> saveGroup(final @PathVariable Long groupId,
                                           final @RequestBody @Valid AssignmentGroupSaveDto assignmentGroupSaveDto) {
-        this.assignmentService.saveGroup(assignmentGroupSaveDto, groupId);
+        this.assignmentService.groupSave(assignmentGroupSaveDto, groupId);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

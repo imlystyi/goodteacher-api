@@ -20,28 +20,10 @@ public class GroupMapper {
                        .build();
     }
 
-    public static Group fromDtoToEntity(final GroupDto dto) {
-        return Group.builder()
-                    .name(dto.getName())
-                    .about(dto.getAbout())
-                    .teacher(TeacherMapper.fromDtoToEntity(dto.getTeacher()))
-                    .students(dto.getStudents()
-                                 .stream()
-                                 .map(StudentMapper::fromDtoToEntity)
-                                 .collect(Collectors.toList()))
-                    .build();
-
-    }
-
     public static Group fromSaveDtoToEntity(final GroupSaveDto saveDto) {
         return Group.builder()
                     .name(saveDto.getName())
                     .about(saveDto.getAbout())
-//                    .teacher(TeacherMapper.fromDtoToEntity(saveDto.getTeacherId()))
-//                    .students(saveDto.getStudentIds()
-//                                     .stream()
-//                                     .map(StudentMapper::fromDtoToEntity)
-//                                     .collect(Collectors.toSet()))
                     .build();
     }
 }

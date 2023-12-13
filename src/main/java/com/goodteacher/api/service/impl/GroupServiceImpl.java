@@ -2,14 +2,11 @@ package com.goodteacher.api.service.impl;
 
 import com.goodteacher.api.dto.GroupDto;
 import com.goodteacher.api.dto.GroupSaveDto;
-import com.goodteacher.api.dto.StudentDto;
-import com.goodteacher.api.dto.TeacherDto;
 import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Student;
+import com.goodteacher.api.entity.Teacher;
 import com.goodteacher.api.exception.NotFoundException;
 import com.goodteacher.api.mapper.GroupMapper;
-import com.goodteacher.api.mapper.StudentMapper;
-import com.goodteacher.api.mapper.TeacherMapper;
 import com.goodteacher.api.repository.GroupRepository;
 import com.goodteacher.api.service.GroupService;
 import com.goodteacher.api.service.StudentService;
@@ -20,105 +17,117 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@RequiredArgsConstructor
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class GroupServiceImpl implements GroupService {
+    // region Fields
+
     private final GroupRepository groupRepository;
 
     private final TeacherService teacherService;
     private final StudentService studentService;
 
+    // endregion
+
+    // region Methods
+
     @Override
     public GroupDto findById(final Long id) {
-        final Group groupEntity = this.findByIdStream(id);
+        final Group groupEntity = findByIdInRepository(id);
 
         return GroupMapper.fromEntityToDto(groupEntity);
     }
 
     @Override
     public GroupDto save(final GroupSaveDto groupSaveDto) {
-        final Group groupEntity = new Group();
-
-        groupEntity.setName(groupSaveDto.getName());
-        groupEntity.setAbout(groupSaveDto.getAbout());
-
-        // GroupMapper.fromSaveDtoToEntity(groupSaveDto);
+        final Group groupEntity = GroupMapper.fromSaveDtoToEntity(groupSaveDto);
 
         final Long teacherId = groupSaveDto.getTeacherId();
         final Set<Long> studentIds = groupSaveDto.getStudentIds();
 
-        groupEntity.setTeacher(this.teacherService.findEntityById(teacherId));
+        groupEntity.setTeacher(teacherService.findEntityById(teacherId));
         groupEntity.setStudents(studentIds.stream()
-                                          .map(this.studentService::findEntityById)
+                                          .map(studentService::findEntityById)
                                           .collect(java.util.stream.Collectors.toList()));
 
-        final Group savedGroupEntity = this.groupRepository.save(groupEntity);
+        final Group savedGroupEntity = groupRepository.save(groupEntity);
+
+        teacherService.addGroup(teacherId, savedGroupEntity);
+        studentIds.forEach(i -> studentService.addGroup(i, savedGroupEntity));
 
         return GroupMapper.fromEntityToDto(savedGroupEntity);
     }
 
     @Override
     public GroupDto updateName(final Long id, final String name) {
-        final Group groupEntity = this.findByIdStream(id);
+        final Group groupEntity = findByIdInRepository(id);
 
         groupEntity.setName(name);
 
-        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
-    }
-
-    @Override
-    public GroupDto updateTeacher(final Long id, final TeacherDto teacherDto) {
-        final Group groupEntity = this.findByIdStream(id);
-
-        groupEntity.setTeacher(TeacherMapper.fromDtoToEntity(teacherDto));
-
-        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
+        return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }
 
     @Override
     public GroupDto updateAbout(final Long id, final String about) {
-        final Group groupEntity = this.findByIdStream(id);
+        final Group groupEntity = findByIdInRepository(id);
 
         groupEntity.setAbout(about);
 
-        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
+        return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }
 
     @Override
-    public GroupDto addStudent(final Long id, final StudentDto studentDto) {
-        final Group groupEntity = this.findByIdStream(id);
+    public GroupDto updateTeacher(final Long groupId, final Long teacherId) {
+        final Group groupEntity = findByIdInRepository(groupId);
+        final Teacher teacherEntity = teacherService.findEntityById(teacherId);
 
-        final Student studentEntity = StudentMapper.fromDtoToEntity(studentDto);
+        teacherService.removeGroup(groupEntity.getTeacher().getId(), groupEntity);
+
+        groupEntity.setTeacher(teacherEntity);
+
+        teacherService.addGroup(teacherId, groupEntity);
+
+        return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
+    }
+
+    @Override
+    public GroupDto addStudent(final Long groupId, final Long studentId) {
+        final Group groupEntity = findByIdInRepository(groupId);
+        final Student studentEntity = studentService.findEntityById(studentId);
 
         groupEntity.getStudents().add(studentEntity);
 
-        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
+        studentService.addGroup(studentId, groupEntity);
+
+        return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }
 
     @Override
-    public GroupDto deleteStudent(final Long id, final StudentDto studentDto) {
-        final Group groupEntity = this.findByIdStream(id);
+    public GroupDto removeStudent(final Long id, final Long studentId) {
+        final Group groupEntity = findByIdInRepository(id);
 
-        final Student studentEntity = StudentMapper.fromDtoToEntity(studentDto);
+        groupEntity.getStudents().removeIf(s -> s.getId().equals(studentId));
 
-        groupEntity.getStudents().remove(studentEntity);
+        studentService.removeGroup(studentId, groupEntity);
 
-        return GroupMapper.fromEntityToDto(this.groupRepository.save(groupEntity));
+        return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }
 
     @Override
-    public void delete(final Long id) {
-        final Group groupEntity = this.findByIdStream(id);
+    public void remove(final Long id) {
+        final Group groupEntity = findByIdInRepository(id);
 
         groupEntity.setIsActive(Boolean.FALSE);
 
-        this.groupRepository.save(groupEntity);
+        groupRepository.save(groupEntity);
     }
 
-    private Group findByIdStream(final Long id) {
-        return this.groupRepository.findByIdAndIsActiveTrue(id)
+    private Group findByIdInRepository(final Long id) {
+        return groupRepository.findByIdAndIsActiveTrue(id)
                                    .orElseThrow(() -> new NotFoundException(
                                            "Group with id %d not found".formatted(id)));
     }
+
+    // endregion
 }
