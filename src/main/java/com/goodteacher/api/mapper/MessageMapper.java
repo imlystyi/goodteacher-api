@@ -16,17 +16,6 @@ public class MessageMapper {
 
     }
 
-//    public static Message fromDtoToEntity(final MessageDto dto) {
-//
-//        return Message.builder()
-//                .id(dto.getId())
-//                .fromUserId(dto.getFromUserId())
-//                .toUserId(dto.getToUserId())
-//                .text(dto.getText())
-//                .build();
-//
-//    }
-
     public static Message fromSaveDtoToEntity(final MessageSaveDto saveDto) {
         return Message.builder()
                 .fromUserId(saveDto.getFromUserId())

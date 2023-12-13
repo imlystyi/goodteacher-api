@@ -18,17 +18,6 @@ public class TaskMapper {
                 .build();
     }
 
-    public static Task fromDtoToEntity(final TaskDto saveDto) {
-        return Task.builder()
-                .id(saveDto.getId())
-                .name(saveDto.getName())
-                .text(saveDto.getText())
-                .quiz(saveDto.getQuiz())
-                .creationDate(saveDto.getCreationDate())
-                .authorName(saveDto.getAuthorName())
-                .build();
-    }
-
     public static Task fromSaveDtoToEntity(final TaskSaveDto saveDto) {
         return Task.builder()
                 .name(saveDto.getName())

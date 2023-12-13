@@ -2,6 +2,7 @@ package com.goodteacher.api.resource;
 
 import com.goodteacher.api.dto.*;
 import com.goodteacher.api.service.MessageService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class MessageResource {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<MessageDto> sendMessage(final @RequestBody MessageSaveDto messageSaveDto) {
+    public ResponseEntity<MessageDto> sendMessage(final @RequestBody @Valid MessageSaveDto messageSaveDto) {
 
         final MessageDto savedMessageDto = this.messageService.save(messageSaveDto);
 

@@ -34,7 +34,6 @@ public class ResourceResponseEntityExceptionHandler {
                                  .reduce((s1, s2) -> s1 + "; " + s2)
                                  .orElse("Problem while creating error message");
 
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponseDto(message));
     }
 }

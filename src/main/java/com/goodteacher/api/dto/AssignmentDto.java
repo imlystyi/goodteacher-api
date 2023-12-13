@@ -1,5 +1,9 @@
 package com.goodteacher.api.dto;
 
+import com.goodteacher.api.entity.Assignment;
+import com.goodteacher.api.entity.Student;
+import com.goodteacher.api.entity.Task;
+import com.goodteacher.api.entity.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,10 +11,13 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * DTO that represents {@link Assignment} entity.
+ */
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AssignmentDto {
     private Long id;
 
@@ -18,9 +25,9 @@ public class AssignmentDto {
 
     private TaskDto task;
 
-    private Long studentId;
-
     private Long teacherId;
+
+    private Long studentId;
 
     private Double grade;
 

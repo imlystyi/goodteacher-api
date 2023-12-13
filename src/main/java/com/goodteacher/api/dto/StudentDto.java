@@ -33,5 +33,5 @@ public class StudentDto {
     private Set<AssignmentDto> assignments = Set.of();
 
     @Builder.Default
-    private Set<GroupDto> groups = Set.of();
+    private Set<Long> groupIds = Set.of();
 }

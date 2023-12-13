@@ -3,6 +3,7 @@ package com.goodteacher.api.service.impl;
 import com.goodteacher.api.dto.MessageDto;
 import com.goodteacher.api.dto.MessageSaveDto;
 import com.goodteacher.api.entity.Message;
+import com.goodteacher.api.exception.ConflictException;
 import com.goodteacher.api.exception.NotFoundException;
 import com.goodteacher.api.mapper.MessageMapper;
 import com.goodteacher.api.repository.MessageRepository;

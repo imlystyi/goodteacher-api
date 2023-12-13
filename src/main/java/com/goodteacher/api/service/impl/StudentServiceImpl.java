@@ -3,6 +3,8 @@ package com.goodteacher.api.service.impl;
 import com.goodteacher.api.dto.NameDto;
 import com.goodteacher.api.dto.StudentDto;
 import com.goodteacher.api.dto.UserDto;
+import com.goodteacher.api.entity.Assignment;
+import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Student;
 import com.goodteacher.api.exception.ConflictException;
 import com.goodteacher.api.exception.NotFoundException;
@@ -28,26 +30,26 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDto findById(final Long id) {
-        final Student studentEntity = this.findByIdStream(id);
+        final Student studentEntity = findByIdStream(id);
 
         return StudentMapper.fromEntityToDto(studentEntity);
     }
 
     @Override
     public Student findEntityById(final Long id) {
-        return this.findByIdStream(id);
+        return findByIdStream(id);
     }
 
     @Override
     public StudentDto findByNickname(final String nickname) {
-        final Student studentEntity = this.findByNicknameStream(nickname);
+        final Student studentEntity = findByNicknameStream(nickname);
 
         return StudentMapper.fromEntityToDto(studentEntity);
     }
 
     @Override
     public Set<StudentDto> findAllByName(final NameDto nameDto) {
-        return this.findAllByNameStream(nameDto.getFirstName(), nameDto.getLastName(), nameDto.getPatronymic())
+        return findAllByNameStream(nameDto.getFirstName(), nameDto.getLastName(), nameDto.getPatronymic())
                    .stream()
                    .map(StudentMapper::fromEntityToDto)
                    .collect(Collectors.toSet());
@@ -56,9 +58,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDto save(final UserDto userDto) {
-        if (this.userService.anyByNickname(userDto.getNickname())) {
+        if (userService.anyByNickname(userDto.getNickname())) {
             throw new ConflictException("User with nickname %s already exists".formatted(userDto.getNickname()));
-        } else if (this.userService.anyByEmail(userDto.getEmail())) {
+        } else if (userService.anyByEmail(userDto.getEmail())) {
             throw new ConflictException("User with email %s already exists".formatted(userDto.getEmail()));
         }
 
@@ -72,7 +74,7 @@ public class StudentServiceImpl implements StudentService {
                                                 .birthDate(userDto.getBirthDate())
                                                 .build();
 
-        final Student studentEntity = this.studentRepository.save(StudentMapper.fromDtoToEntity(studentDto));
+        final Student studentEntity = studentRepository.save(StudentMapper.fromDtoToEntity(studentDto));
 
         studentDto.setId(studentEntity.getId());
 
@@ -81,70 +83,97 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void updateEmail(final Long id, final String email) {
-        if (this.userService.anyByEmail(email)) {
+        if (userService.anyByEmail(email)) {
             throw new ConflictException("User with email %s already exists".formatted(email));
         }
 
-        final Student studentEntity = this.findByIdStream(id);
+        final Student studentEntity = findByIdStream(id);
 
         studentEntity.setEmail(email);
 
-        this.studentRepository.save(studentEntity);
+        studentRepository.save(studentEntity);
     }
 
     @Override
     public void updatePassword(final Long id, final String password) {
-        final Student studentEntity = this.findByIdStream(id);
+        final Student studentEntity = findByIdStream(id);
 
         studentEntity.setPassword(password);
 
-        this.studentRepository.save(studentEntity);
+        studentRepository.save(studentEntity);
     }
 
     @Override
     public StudentDto updateName(final Long id, final NameDto nameDto) {
-        final Student studentEntity = this.findByIdStream(id);
+        final Student studentEntity = findByIdStream(id);
 
         studentEntity.setFirstName(nameDto.getFirstName());
         studentEntity.setLastName(nameDto.getLastName());
         studentEntity.setPatronymic(nameDto.getPatronymic());
 
-        return StudentMapper.fromEntityToDto(this.studentRepository.save(studentEntity));
+        return StudentMapper.fromEntityToDto(studentRepository.save(studentEntity));
     }
 
     @Override
     public StudentDto updateBirthDate(final Long id, final LocalDate birthDate) {
-        final Student studentEntity = this.findByIdStream(id);
+        final Student studentEntity = findByIdStream(id);
 
         studentEntity.setBirthDate(birthDate);
 
-        return StudentMapper.fromEntityToDto(this.studentRepository.save(studentEntity));
+        return StudentMapper.fromEntityToDto(studentRepository.save(studentEntity));
     }
 
     @Override
-    public void delete(final Long id) {
-        final Student studentEntity = this.findByIdStream(id);
+    public void addAssignment(final Long studentId, final Assignment assignmentEntity) {
+        final Student studentEntity = findByIdStream(studentId);
+
+        studentEntity.getAssignments().add(assignmentEntity);
+
+        studentRepository.save(studentEntity);
+    }
+
+    @Override
+    public void addGroup(final Long studentId, final Group groupEntity) {
+        final Student studentEntity = findByIdStream(studentId);
+
+        studentEntity.getGroups().add(groupEntity);
+
+        studentRepository.save(studentEntity);
+    }
+
+    @Override
+    public void removeGroup(final Long studentId, final Group groupEntity) {
+        final Student studentEntity = findByIdStream(studentId);
+
+        studentEntity.getGroups().removeIf(g -> g.getId().equals(groupEntity.getId()));
+
+        studentRepository.save(studentEntity);
+    }
+
+    @Override
+    public void remove(final Long id) {
+        final Student studentEntity = findByIdStream(id);
 
         studentEntity.setIsActive(Boolean.FALSE);
 
-        this.studentRepository.save(studentEntity);
+        studentRepository.save(studentEntity);
     }
 
     private Student findByIdStream(final Long id) {
-        return this.studentRepository.findByIdAndIsActiveTrue(id)
+        return studentRepository.findByIdAndIsActiveTrue(id)
                                      .orElseThrow(() -> new NotFoundException(
                                              "Student with id %d not found".formatted(id)));
     }
 
     private Student findByNicknameStream(final String nickname) {
-        return this.studentRepository.findByNicknameAndIsActiveTrue(nickname)
+        return studentRepository.findByNicknameAndIsActiveTrue(nickname)
                                      .orElseThrow(() -> new NotFoundException(
                                              "Student with nickname %s not found".formatted(nickname)));
     }
 
     private Set<Student> findAllByNameStream(final String firstName, final String lastName, final String patronymic) {
         final Set<Student> studentEntities =
-                this.studentRepository.findAllByFirstNameAndLastNameAndPatronymicAndIsActiveTrue(firstName, lastName,
+                studentRepository.findAllByFirstNameAndLastNameAndPatronymicAndIsActiveTrue(firstName, lastName,
                                                                                                  patronymic);
 
         if (studentEntities.isEmpty()) {

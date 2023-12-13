@@ -3,6 +3,8 @@ package com.goodteacher.api.service;
 import com.goodteacher.api.dto.NameDto;
 import com.goodteacher.api.dto.StudentDto;
 import com.goodteacher.api.dto.UserDto;
+import com.goodteacher.api.entity.Assignment;
+import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Student;
 
 import java.time.LocalDate;
@@ -37,5 +39,11 @@ public interface StudentService {
 
     StudentDto updateBirthDate(Long id, LocalDate birthDate);
 
-    void delete(Long id);
+    void addAssignment(Long studentId, Assignment assignmentEntity);
+
+    void addGroup(Long studentId, Group groupEntity);
+
+    void removeGroup(Long studentId, Group groupEntity);
+
+    void remove(Long id);
 }

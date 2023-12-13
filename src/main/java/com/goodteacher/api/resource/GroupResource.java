@@ -2,8 +2,6 @@ package com.goodteacher.api.resource;
 
 import com.goodteacher.api.dto.GroupDto;
 import com.goodteacher.api.dto.GroupSaveDto;
-import com.goodteacher.api.dto.StudentDto;
-import com.goodteacher.api.dto.TeacherDto;
 import com.goodteacher.api.service.GroupService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +17,7 @@ public class GroupResource {
 
     @PostMapping("/create")
     public ResponseEntity<GroupDto> save(final @RequestBody @Valid GroupSaveDto groupSaveDto) {
-        final GroupDto savedGroupDto = this.groupService.save(groupSaveDto);
+        final GroupDto savedGroupDto = groupService.save(groupSaveDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedGroupDto);
 
@@ -27,15 +25,7 @@ public class GroupResource {
 
     @PatchMapping("/update-name/{id}/{name}")
     public ResponseEntity<GroupDto> updateName(final @PathVariable Long id, final @PathVariable String name) {
-        final GroupDto updatedGroupDto = this.groupService.updateName(id, name);
-
-        return ResponseEntity.status(HttpStatus.OK).body(updatedGroupDto);
-    }
-
-    @PatchMapping("/update-teacher/{id}")
-    public ResponseEntity<GroupDto> updateTeacher(final @PathVariable Long id,
-                                                  final @RequestBody @Valid TeacherDto teacherDto) {
-        final GroupDto updatedGroupDto = this.groupService.updateTeacher(id, teacherDto);
+        final GroupDto updatedGroupDto = groupService.updateName(id, name);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedGroupDto);
     }
@@ -43,30 +33,38 @@ public class GroupResource {
     @PatchMapping("/update-about/{id}/{about}")
     public ResponseEntity<GroupDto> updateAbout(final @PathVariable Long id,
                                                 final @PathVariable String about) {
-        final GroupDto updatedGroupDto = this.groupService.updateAbout(id, about);
+        final GroupDto updatedGroupDto = groupService.updateAbout(id, about);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedGroupDto);
     }
 
-    @PatchMapping("/add-student/{groupId}")
+    @PatchMapping("/update-teacher/{groupId}/{teacherId}")
+    public ResponseEntity<GroupDto> updateTeacher(final @PathVariable Long groupId,
+                                                  final @PathVariable Long teacherId) {
+        final GroupDto updatedGroupDto = groupService.updateTeacher(groupId, teacherId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedGroupDto);
+    }
+
+    @PatchMapping("/add-student/{groupId}/{studentId}")
     public ResponseEntity<GroupDto> addStudent(final @PathVariable Long groupId,
-                                               final @RequestBody @Valid StudentDto student) {
-        final GroupDto updatedGroupDto = this.groupService.addStudent(groupId, student);
+                                               final @PathVariable Long studentId) {
+        final GroupDto updatedGroupDto = groupService.addStudent(groupId, studentId);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedGroupDto);
     }
 
-    @PatchMapping("/delete-student/{groupId}")
+    @PatchMapping("/delete-student/{groupId}/{studentId}")
     public ResponseEntity<GroupDto> deleteStudent(final @PathVariable Long groupId,
-                                                  final @RequestBody @Valid StudentDto student) {
-        final GroupDto updatedGroupDto = this.groupService.deleteStudent(groupId, student);
+                                                  final @PathVariable Long studentId) {
+        final GroupDto updatedGroupDto = groupService.removeStudent(groupId, studentId);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedGroupDto);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(final @PathVariable Long id) {
-        this.groupService.delete(id);
+        groupService.remove(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

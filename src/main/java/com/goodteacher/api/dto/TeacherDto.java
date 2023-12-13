@@ -31,5 +31,5 @@ public class TeacherDto {
     private String status;
 
     @Builder.Default
-    private Set<GroupDto> groups = Set.of();
+    private Set<Long> groupIds = Set.of();
 }

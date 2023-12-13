@@ -4,6 +4,7 @@ import com.goodteacher.api.dto.NameDto;
 import com.goodteacher.api.dto.TeacherDto;
 import com.goodteacher.api.dto.TeacherInfoDto;
 import com.goodteacher.api.dto.UserDto;
+import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Teacher;
 import com.goodteacher.api.exception.ConflictException;
 import com.goodteacher.api.exception.NotFoundException;
@@ -29,26 +30,26 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherDto findById(final Long id) {
-        final Teacher teacherEntity = this.findByIdStream(id);
+        final Teacher teacherEntity = findByIdStream(id);
 
         return TeacherMapper.fromEntityToDto(teacherEntity);
     }
 
     @Override
     public Teacher findEntityById(final Long id) {
-        return this.findByIdStream(id);
+        return findByIdStream(id);
     }
 
     @Override
     public TeacherDto findByNickname(final String nickname) {
-        final Teacher teacherEntity = this.findByNicknameStream(nickname);
+        final Teacher teacherEntity = findByNicknameStream(nickname);
 
         return TeacherMapper.fromEntityToDto(teacherEntity);
     }
 
     @Override
     public Set<TeacherDto> findAllByName(final NameDto nameDto) {
-        return this.findAllByNameStream(nameDto.getFirstName(), nameDto.getLastName(), nameDto.getPatronymic())
+        return findAllByNameStream(nameDto.getFirstName(), nameDto.getLastName(), nameDto.getPatronymic())
                    .stream()
                    .map(TeacherMapper::fromEntityToDto)
                    .collect(Collectors.toSet());
@@ -56,9 +57,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherDto save(final UserDto userDto) {
-        if (this.userService.anyByNickname(userDto.getNickname())) {
+        if (userService.anyByNickname(userDto.getNickname())) {
             throw new ConflictException("User with nickname %s already exists".formatted(userDto.getNickname()));
-        } else if (this.userService.anyByEmail(userDto.getEmail())) {
+        } else if (userService.anyByEmail(userDto.getEmail())) {
             throw new ConflictException("User with email %s already exists".formatted(userDto.getEmail()));
         }
 
@@ -72,7 +73,7 @@ public class TeacherServiceImpl implements TeacherService {
                                                 .birthDate(userDto.getBirthDate())
                                                 .build();
 
-        final Teacher teacherEntity = this.teacherRepository.save(TeacherMapper.fromDtoToEntity(teacherDto));
+        final Teacher teacherEntity = teacherRepository.save(TeacherMapper.fromDtoToEntity(teacherDto));
 
         teacherDto.setId(teacherEntity.getId());
 
@@ -81,80 +82,98 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void updateEmail(final Long id, final String email) {
-        if (this.userService.anyByEmail(email)) {
+        if (userService.anyByEmail(email)) {
             throw new ConflictException("User with email %s already exists".formatted(email));
         }
 
-        final Teacher teacherEntity = this.findByIdStream(id);
+        final Teacher teacherEntity = findByIdStream(id);
 
         teacherEntity.setEmail(email);
 
-        this.teacherRepository.save(teacherEntity);
+        teacherRepository.save(teacherEntity);
     }
 
     @Override
     public void updatePassword(final Long id, final String password) {
-        final Teacher teacherEntity = this.findByIdStream(id);
+        final Teacher teacherEntity = findByIdStream(id);
 
         teacherEntity.setPassword(password);
 
-        this.teacherRepository.save(teacherEntity);
+        teacherRepository.save(teacherEntity);
     }
 
     @Override
     public TeacherDto updateName(final Long id, final NameDto nameDto) {
-        final Teacher teacherEntity = this.findByIdStream(id);
+        final Teacher teacherEntity = findByIdStream(id);
 
         teacherEntity.setFirstName(nameDto.getFirstName());
         teacherEntity.setLastName(nameDto.getLastName());
         teacherEntity.setPatronymic(nameDto.getPatronymic());
 
-        return TeacherMapper.fromEntityToDto(this.teacherRepository.save(teacherEntity));
+        return TeacherMapper.fromEntityToDto(teacherRepository.save(teacherEntity));
     }
 
     @Override
     public TeacherDto updateBirthDate(final Long id, final LocalDate birthDate) {
-        final Teacher teacherEntity = this.findByIdStream(id);
+        final Teacher teacherEntity = findByIdStream(id);
 
         teacherEntity.setBirthDate(birthDate);
 
-        return TeacherMapper.fromEntityToDto(this.teacherRepository.save(teacherEntity));
+        return TeacherMapper.fromEntityToDto(teacherRepository.save(teacherEntity));
     }
 
     @Override
     public TeacherDto updateInfo(final TeacherInfoDto teacherInfoDto) {
-        final Teacher teacherEntity = this.findByIdStream(teacherInfoDto.getId());
+        final Teacher teacherEntity = findByIdStream(teacherInfoDto.getId());
 
         teacherEntity.setAbout(teacherInfoDto.getAbout());
         teacherEntity.setStatus(teacherInfoDto.getStatus());
 
-        return TeacherMapper.fromEntityToDto(this.teacherRepository.save(teacherEntity));
+        return TeacherMapper.fromEntityToDto(teacherRepository.save(teacherEntity));
+    }
+
+    @Override
+    public void addGroup(final Long teacherId, final Group groupEntity) {
+        final Teacher teacherEntity = findByIdStream(teacherId);
+
+        teacherEntity.getGroups().add(groupEntity);
+
+        teacherRepository.save(teacherEntity);
+    }
+
+    @Override
+    public void removeGroup(final Long id, final Group groupEntity) {
+        final Teacher teacherEntity = findByIdStream(id);
+
+        teacherEntity.getGroups().remove(groupEntity);
+
+        teacherRepository.save(teacherEntity);
     }
 
     @Override
     public void delete(final Long id) {
-        final Teacher teacherEntity = this.findByIdStream(id);
+        final Teacher teacherEntity = findByIdStream(id);
 
         teacherEntity.setIsActive(Boolean.FALSE);
 
-        this.teacherRepository.save(teacherEntity);
+        teacherRepository.save(teacherEntity);
     }
 
     private Teacher findByIdStream(final Long id) {
-        return this.teacherRepository.findByIdAndIsActiveTrue(id)
+        return teacherRepository.findByIdAndIsActiveTrue(id)
                                      .orElseThrow(() -> new NotFoundException(
                                              "Teacher with id %d not found".formatted(id)));
     }
 
     private Teacher findByNicknameStream(final String nickname) {
-        return this.teacherRepository.findByNicknameAndIsActiveTrue(nickname)
+        return teacherRepository.findByNicknameAndIsActiveTrue(nickname)
                                      .orElseThrow(() -> new NotFoundException(
                                              "Teacher with nickname %s not found".formatted(nickname)));
     }
 
     private Set<Teacher> findAllByNameStream(final String firstName, final String lastName, final String patronymic) {
         final Set<Teacher> teacherEntities =
-                this.teacherRepository.findAllByFirstNameAndLastNameAndPatronymicAndIsActiveTrue(firstName, lastName,
+                teacherRepository.findAllByFirstNameAndLastNameAndPatronymicAndIsActiveTrue(firstName, lastName,
                                                                                                  patronymic);
 
         if (teacherEntities.isEmpty()) {
