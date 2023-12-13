@@ -56,7 +56,7 @@ public class AssignmentServiceImpl implements AssignmentService {
      *
      * @param title title to search by as {@link String}.
      * @return found assignments as {@link Set}{@code <}{@link AssignmentDto}{@code >} if any assignment with specified title exists.
-     * @throws NotFoundException if no assignment with specified title exists.
+     * @throws NotFoundException if the assignment with the specified title does not exist.
      */
     @Override
     public Set<AssignmentDto> findByTitle(final String title) {
@@ -96,7 +96,7 @@ public class AssignmentServiceImpl implements AssignmentService {
      *
      * @param assignmentGroupSaveDto assignment to save as {@link AssignmentGroupSaveDto}.
      * @param groupId                group ID as {@link Long}.
-     * @throws NotFoundException if no group with specified ID exists.
+     * @throws NotFoundException if the group with the specified ID does not exist.
      */
     @Override
     public void groupSave(final AssignmentGroupSaveDto assignmentGroupSaveDto, final Long groupId) {
@@ -122,15 +122,15 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     /**
-     * Sets grade to the specific assignment.
+     * Updates the grade of the specific assignment.
      *
      * @param id    assignment ID as {@link Long}.
-     * @param grade grade as {@link Double}.
+     * @param grade new grade as {@link Double}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     @Override
-    public AssignmentDto grade(final Long id, final Double grade) {
+    public AssignmentDto updateGrade(final Long id, final Double grade) {
         final Assignment assignmentEntity = findByIdInRepository(id);
 
         assignmentEntity.setGrade(grade);
@@ -141,15 +141,15 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     /**
-     * Sets comment to the specific assignment.
+     * Updates the comment of the specific assignment.
      *
      * @param id      assignment ID as {@link Long}.
-     * @param comment comment as {@link String}.
+     * @param comment new comment as {@link String}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     @Override
-    public AssignmentDto comment(final Long id, final String comment) {
+    public AssignmentDto updateComment(final Long id, final String comment) {
         final Assignment assignmentEntity = findByIdInRepository(id);
 
         assignmentEntity.setComment(comment);
@@ -160,12 +160,12 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     /**
-     * Sets deadline to the specific assignment.
+     * Updates the deadline of the specific assignment.
      *
      * @param id       assignment ID as {@link Long}.
-     * @param deadline deadline as {@link LocalDate}.
+     * @param deadline new deadline as {@link LocalDate}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     @Override
     public AssignmentDto setDeadline(final Long id, final LocalDate deadline) {
@@ -179,12 +179,12 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     /**
-     * Completes the specific assignment.
+     * Updates the completion of the specific assignment to {@code true}.
      *
      * @param id          assignment ID as {@link Long}.
      * @param closingDate date when assignment was completed as {@link LocalDate}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     @Override
     public AssignmentDto complete(final Long id, final LocalDate closingDate) {
@@ -199,11 +199,11 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     /**
-     * Incompletes the specific assignment.
+     * Updates the completion of the specific assignment to {@code false}.
      *
      * @param id assignment ID as {@link Long}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     @Override
     public AssignmentDto incomplete(final Long id) {
@@ -218,10 +218,10 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     /**
-     * Sets the specific assignment as inactive.
+     * Sets the specific assignment inactive.
      *
      * @param id assignment ID as {@link Long}.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     @Override
     public void delete(final Long id) {

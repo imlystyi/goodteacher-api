@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+/**
+ * Main implementer of {@link GroupService} interface.
+ */
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -32,6 +35,13 @@ public class GroupServiceImpl implements GroupService {
 
     // region Methods
 
+    /**
+     * Finds a group by ID.
+     *
+     * @param id ID to search by as {@link Long}.
+     * @return found group as {@link GroupDto} if the group with specified ID exists.
+     * @throws NotFoundException if the group with specified ID does not exist.
+     */
     @Override
     public GroupDto findById(final Long id) {
         final Group groupEntity = findByIdInRepository(id);
@@ -39,6 +49,12 @@ public class GroupServiceImpl implements GroupService {
         return GroupMapper.fromEntityToDto(groupEntity);
     }
 
+    /**
+     * Saves the assignment in the repository.
+     *
+     * @param groupSaveDto group to save as {@link GroupDto}.
+     * @return saved assignment as {@link GroupDto} if saved successfully.
+     */
     @Override
     public GroupDto save(final GroupSaveDto groupSaveDto) {
         final Group groupEntity = GroupMapper.fromSaveDtoToEntity(groupSaveDto);
@@ -59,6 +75,14 @@ public class GroupServiceImpl implements GroupService {
         return GroupMapper.fromEntityToDto(savedGroupEntity);
     }
 
+    /**
+     * Updates the name of the specific group.
+     *
+     * @param id   group ID as {@link Long}.
+     * @param name new name as {@link String}.
+     * @return updated group as {@link GroupDto} if updated successfully.
+     * @throws NotFoundException if the group with specified ID does not exist.
+     */
     @Override
     public GroupDto updateName(final Long id, final String name) {
         final Group groupEntity = findByIdInRepository(id);
@@ -68,6 +92,14 @@ public class GroupServiceImpl implements GroupService {
         return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }
 
+    /**
+     * Updates the about of the specific group.
+     *
+     * @param id    group ID as {@link Long}.
+     * @param about new about as {@link String}.
+     * @return updated group as {@link GroupDto} if updated successfully.
+     * @throws NotFoundException if the group with specified ID does not exist.
+     */
     @Override
     public GroupDto updateAbout(final Long id, final String about) {
         final Group groupEntity = findByIdInRepository(id);
@@ -77,6 +109,14 @@ public class GroupServiceImpl implements GroupService {
         return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }
 
+    /**
+     * Updates the teacher of the specific group.
+     *
+     * @param groupId   group ID as {@link Long}.
+     * @param teacherId teacher ID as {@link Long}.
+     * @return updated group as {@link GroupDto} if updated successfully.
+     * @throws NotFoundException if the group/teacher with specified ID does not exist.
+     */
     @Override
     public GroupDto updateTeacher(final Long groupId, final Long teacherId) {
         final Group groupEntity = findByIdInRepository(groupId);
@@ -91,6 +131,14 @@ public class GroupServiceImpl implements GroupService {
         return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }
 
+    /**
+     * Adds the student to the specific group.
+     *
+     * @param groupId  group ID as {@link Long}.
+     * @param studentId student ID as {@link Long}.
+     * @return updated group as {@link GroupDto} if updated successfully.
+     * @throws NotFoundException if the group/student with specified ID does not exist.
+     */
     @Override
     public GroupDto addStudent(final Long groupId, final Long studentId) {
         final Group groupEntity = findByIdInRepository(groupId);
@@ -103,6 +151,14 @@ public class GroupServiceImpl implements GroupService {
         return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }
 
+    /**
+     * Removes the student from the specific group.
+     *
+     * @param groupId  group ID as {@link Long}.
+     * @param studentId student ID as {@link Long}.
+     * @return updated group as {@link GroupDto} if updated successfully.
+     * @throws NotFoundException if the group/student with specified ID does not exist.
+     */
     @Override
     public GroupDto removeStudent(final Long groupId, final Long studentId) {
         final Group groupEntity = findByIdInRepository(groupId);
@@ -114,8 +170,14 @@ public class GroupServiceImpl implements GroupService {
         return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }
 
+    /**
+     * Sets the specific group inactive.
+     *
+     * @param id group ID as {@link Long}.
+     * @throws NotFoundException if the group with specified ID does not exist.
+     */
     @Override
-    public void remove(final Long id) {
+    public void delete(final Long id) {
         final Group groupEntity = findByIdInRepository(id);
 
         groupEntity.setIsActive(Boolean.FALSE);

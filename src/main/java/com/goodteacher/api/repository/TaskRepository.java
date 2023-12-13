@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Repository to manage {@link Task} instances.
+ * Repository to manage {@link Task} entities.
  */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {

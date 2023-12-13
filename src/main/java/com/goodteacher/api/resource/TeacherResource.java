@@ -3,7 +3,6 @@ package com.goodteacher.api.resource;
 import com.goodteacher.api.dto.*;
 import com.goodteacher.api.service.TeacherService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,87 +14,192 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * The REST controller to handle the requests to the teacher resource.
+ */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/teachers")
-@RequiredArgsConstructor
 public class TeacherResource {
+    // region Fields
+
     private final TeacherService teacherService;
 
+    // endregion
+
+    // region GET mappings
+
+    /**
+     * Represents the HTTP GET request method for finding a teacher by their ID.
+     *
+     * @param id ID to search by as {@link Long}. Must be contained in the path as the path variable.
+     * @return {@link ResponseEntity} with HTTP status 200 "OK" and the found teacher as {@link TeacherDto} in the response body if the teacher was successfully found; otherwise, result depends on problem.
+     */
     @GetMapping("/find/id/{id}")
     public ResponseEntity<TeacherDto> findById(final @PathVariable Long id) {
-        final TeacherDto foundTeacherDto = this.teacherService.findById(id);
+        final TeacherDto foundTeacherDto = teacherService.findById(id);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(foundTeacherDto);
+        return ResponseEntity.status(HttpStatus.OK).body(foundTeacherDto);
     }
 
+    /**
+     * Represents the HTTP GET request method for finding a teacher by their nickname.
+     *
+     * @param nickname nickname to search by as {@link String}. Must be contained in the path as the path variable.
+     * @return {@link ResponseEntity} with HTTP status 200 "OK" and the found teacher as {@link TeacherDto} in the response body if the teacher was successfully found; otherwise, result depends on problem.
+     */
     @GetMapping("/find/nickname/{nickname}")
     public ResponseEntity<TeacherDto> findByNickname(final @PathVariable String nickname) {
-        final TeacherDto foundTeacherDto = this.teacherService.findByNickname(nickname);
+        final TeacherDto foundTeacherDto = teacherService.findByNickname(nickname);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(foundTeacherDto);
+        return ResponseEntity.status(HttpStatus.OK).body(foundTeacherDto);
     }
 
+    /**
+     * Represents the HTTP GET request method for finding a teachers by their name.
+     *
+     * @param nameDto name to search by as {@link NameDto}. Must be contained in the request body and be successfully validated.
+     * @return {@link ResponseEntity} with HTTP status 200 "OK" and the found teachers as {@link Set}{@code <}{@link TeacherDto}{@code >} in the response body if any teacher was found; otherwise, result depends on problem.
+     */
     @GetMapping("/find/name")
     public ResponseEntity<Set<TeacherDto>> findAllByName(final @RequestBody @Valid NameDto nameDto) {
-        final Set<TeacherDto> foundTeacherDtos = this.teacherService.findAllByName(nameDto);
+        final Set<TeacherDto> foundTeacherDtos = teacherService.findAllByName(nameDto);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(foundTeacherDtos);
+        return ResponseEntity.status(HttpStatus.OK).body(foundTeacherDtos);
     }
 
+    /**
+     * Represents the HTTP GET request method for signing in a teacher.
+     *
+     * @param identityDto identity to signing in by as {@link IdentityDto}. Must be contained in the request body and be successfully validated.
+     * @return {@link ResponseEntity} with HTTP status 200 "OK" and {@code true} if the signing in was successful, otherwise, {@code false} in the response body.
+     */
+    @GetMapping("/sign-in")
+    public ResponseEntity<Boolean> signIn(final @RequestBody @Valid IdentityDto identityDto) {
+        final boolean isSignedIn = teacherService.signIn(identityDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(isSignedIn);
+    }
+
+    // endregion
+
+    // region POST mappings
+
+
+    /**
+     * Represents the HTTP POST request method for creating a teacher.
+     *
+     * @param userDto teacher to save as {@link UserDto}. Must be contained in the request body and be successfully validated.
+     * @return {@link ResponseEntity} with HTTP status 201 "Created" and the created teacher as {@link TeacherDto} in the response body if the teacher was successfully created; otherwise, result depends on problem.
+     */
     @PostMapping("/create")
-    public ResponseEntity<TeacherDto> save(final @RequestBody @Valid UserDto userDto) {
-        final TeacherDto savedTeacherDto = this.teacherService.save(userDto);
+    public ResponseEntity<TeacherDto> create(final @RequestBody @Valid UserDto userDto) {
+        final TeacherDto savedTeacherDto = teacherService.save(userDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTeacherDto);
     }
 
-    @PatchMapping("/update-email/{id}/{email}")
+    // endregion
+
+    // region PATCH mappings
+
+
+    /**
+     * Represents the HTTP PATCH request method for updating teacher's email.
+     *
+     * @param id    teacher ID as {@link Long}. Must be contained in the path as the path variable.
+     * @param email new email as {@link String}. Must be contained in the path as the path variable.
+     * @return {@link ResponseEntity} with HTTP status 204 "No Content" if the email was successfully updated; otherwise, result depends on problem.
+     */
+    @PatchMapping("/update/email/{id}/{email}")
     public ResponseEntity<Void> updateEmail(final @PathVariable Long id,
-                                            final @PathVariable @Email String email) {
-        this.teacherService.updateEmail(id, email);
+                                            final @PathVariable String email) {
+        teacherService.updateEmail(id, email);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PatchMapping("/update-password/{id}/{password}")
+    /**
+     * Represents the HTTP PATCH request method for updating teacher's password.
+     *
+     * @param id       teacher ID as {@link Long}. Must be contained in the path as the path variable.
+     * @param password new password as {@link String}. Must be contained in the path as the path variable.
+     * @return {@link ResponseEntity} with HTTP status 204 "No Content" if the password was successfully updated; otherwise, result depends on problem.
+     */
+    @PatchMapping("/update/password/{id}/{password}")
     public ResponseEntity<Void> updatePassword(final @PathVariable Long id,
                                                final @PathVariable String password) {
-        this.teacherService.updatePassword(id, password);
+        teacherService.updatePassword(id, password);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PatchMapping("/update-name/{id}")
-    public ResponseEntity<TeacherDto> updateName(final @PathVariable Long id,
-                                                 final @RequestBody @Valid NameDto nameDto) {
-        final TeacherDto updatedTeacherDto = this.teacherService.updateName(id, nameDto);
-
-        return ResponseEntity.status(HttpStatus.OK).body(updatedTeacherDto);
-    }
-
-    @PatchMapping("/update-birth-date/{id}/{birthDate}")
+    /**
+     * Represents the HTTP PATCH request method for updating teacher's birthdate.
+     *
+     * @param id        teacher ID as {@link Long}. Must be contained in the path as the path variable.
+     * @param birthDate new birthdate as {@link Date}. Must be contained in the path as the path variable and be in ISO date format.
+     * @return {@link ResponseEntity} with HTTP status 200 "OK" and the updated teacher as {@link TeacherDto} in the response body if the birthdate was successfully updated; otherwise, result depends on problem.
+     */
+    @PatchMapping("/update/birth-date/{id}/{birthDate}")
     public ResponseEntity<TeacherDto> updateBirthDate(final @PathVariable Long id,
                                                       final @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                       Date birthDate) {
         final LocalDate parsedBirthDate = LocalDate.ofInstant(birthDate.toInstant(), ZoneId.systemDefault());
 
-        final TeacherDto updatedTeacherDto = this.teacherService.updateBirthDate(id, parsedBirthDate);
+        final TeacherDto updatedTeacherDto = teacherService.updateBirthDate(id, parsedBirthDate);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedTeacherDto);
     }
 
-    @PutMapping("/update-info")
-    public ResponseEntity<TeacherDto> updateInfo(final @RequestBody TeacherInfoDto teacherInfoDto) {
-        final TeacherDto updatedTeacherDto = this.teacherService.updateInfo(teacherInfoDto);
+    // endregion
+
+    // region PUT mappings
+
+    /**
+     * Represents the HTTP PUT request method for updating teacher's name.
+     *
+     * @param id      teacher ID as {@link Long}. Must be contained in the path as the path variable.
+     * @param nameDto new name as {@link NameDto}. Must be contained in the request body and be successfully validated.
+     * @return {@link ResponseEntity} with HTTP status 200 "OK" and the updated teacher as {@link TeacherDto} in the response body if the name was successfully updated; otherwise, result depends on problem.
+     */
+    @PutMapping("/update/name/{id}")
+    public ResponseEntity<TeacherDto> updateName(final @PathVariable Long id,
+                                                 final @RequestBody @Valid NameDto nameDto) {
+        final TeacherDto updatedTeacherDto = teacherService.updateName(id, nameDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedTeacherDto);
     }
 
+    /**
+     * Represents the HTTP PUT request method for updating teacher's main info ({@code about} and {@code status}).
+     *
+     * @param teacherInfoDto new teacher info as {@link TeacherInfoDto}. Must be contained in the request body and be successfully validated.
+     * @return {@link ResponseEntity} with HTTP status 200 "OK" and the updated teacher as {@link TeacherDto} in the response body if the main info was successfully updated; otherwise, result depends on problem.
+     */
+    @PutMapping("/update/info")
+    public ResponseEntity<TeacherDto> updateInfo(final @RequestBody @Valid TeacherInfoDto teacherInfoDto) {
+        final TeacherDto updatedTeacherDto = teacherService.updateInfo(teacherInfoDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedTeacherDto);
+    }
+
+    // endregion
+
+    // region DELETE mappings
+
+    /**
+     * Represents the HTTP DELETE request method for deleting a teacher softly.
+     *
+     * @param id teacher ID as {@link Long}. Must be contained in the path as the path variable.
+     * @return {@link ResponseEntity} with HTTP status 204 "No Content" if the teacher was successfully deleted; otherwise, result depends on problem.
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(final @PathVariable Long id) {
-        this.teacherService.delete(id);
+        teacherService.delete(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    // endregion
 }

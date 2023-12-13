@@ -7,10 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 /**
- * Repository to manage {@link Message} instances.
+ * Repository to manage {@link Message} entities.
  */
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
     Set<Message> findAllByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
-
 }

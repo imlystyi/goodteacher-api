@@ -7,70 +7,120 @@ import com.goodteacher.api.exception.NotFoundException;
 import com.goodteacher.api.mapper.TaskMapper;
 import com.goodteacher.api.repository.TaskRepository;
 import com.goodteacher.api.service.TaskService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
+/**
+ * Main implementer of {@link TaskService} interface.
+ */
 @RequiredArgsConstructor
+@Service
+@Transactional
 public class TaskServiceImpl implements TaskService {
+    // region Fields
 
     private final TaskRepository taskRepository;
 
+    // endregion
+
+    // region Methods
+
+    /**
+     * Finds a task by ID.
+     *
+     * @param id ID to search by as {@link Long}.
+     * @return found task as {@link TaskDto} if the task with the specified ID exists.
+     * @throws NotFoundException if the task with the specified ID does not exist.
+     */
     @Override
     public TaskDto findById(final Long id) {
-        final Task taskEntity = this.findByIdStream(id);
+        final Task taskEntity = findByIdInRepository(id);
 
         return TaskMapper.fromEntityToDto(taskEntity);
     }
 
+    /**
+     * Finds a task by ID.
+     *
+     * @param id ID to search by as {@link Long}.
+     * @return found task as {@link Task} if the task with the specified ID exists.
+     * @throws NotFoundException if the task with the specified ID does not exist.
+     */
     @Override
     public Task findEntityById(final Long id) {
-        return findByIdStream(id);
+        return findByIdInRepository(id);
     }
 
+    /**
+     * Finds tasks by its name.
+     *
+     * @param name name to search by as {@link String}.
+     * @return found tasks as {@link Set}{@code <}{@link TaskDto}{@code >} if any task with the specified name exists.
+     * @throws NotFoundException if the task with the specified name does not exist.
+     */
     @Override
     public Set<TaskDto> findAllByName(final String name) {
-        return this.findAllByNameStream(name)
-                   .stream()
-                   .map(TaskMapper::fromEntityToDto)
-                   .collect(Collectors.toSet());
+        return findAllByNameInRepository(name)
+                .stream()
+                .map(TaskMapper::fromEntityToDto)
+                .collect(Collectors.toSet());
     }
 
+    /**
+     * Finds tasks by author name.
+     *
+     * @param authorName author name to search by as {@link String}.
+     * @return found tasks as {@link Set}{@code <}{@link TaskDto}{@code >} if any task with the specified author name exists.
+     * @throws NotFoundException if the task with the specified author name does not exist.
+     */
     @Override
     public Set<TaskDto> findAllByAuthorName(final String authorName) {
-        return this.findAllByAuthorNameStream(authorName)
-                   .stream()
-                   .map(TaskMapper::fromEntityToDto)
-                   .collect(Collectors.toSet());
+        return findAllByAuthorNameInRepository(authorName)
+                .stream()
+                .map(TaskMapper::fromEntityToDto)
+                .collect(Collectors.toSet());
     }
 
+    /**
+     * Saves the task in the repository.
+     *
+     * @param taskSaveDto task to save as {@link TaskSaveDto}.
+     * @return saved task as {@link TaskDto} if saved successfully.
+     */
     @Override
     public TaskDto save(final TaskSaveDto taskSaveDto) {
         final Task taskEntity = TaskMapper.fromSaveDtoToEntity(taskSaveDto);
 
-        return TaskMapper.fromEntityToDto(this.taskRepository.save(taskEntity));
+        return TaskMapper.fromEntityToDto(taskRepository.save(taskEntity));
     }
 
+    /**
+     * Sets the specific task inactive.
+     *
+     * @param id task ID as {@link Long}.
+     * @throws NotFoundException if the task with the specified ID does not exist.
+     */
     @Override
     public void delete(final Long id) {
-        final Task taskEntity = this.findByIdStream(id);
+        final Task taskEntity = findByIdInRepository(id);
 
         taskEntity.setIsActive(Boolean.FALSE);
 
-        this.taskRepository.save(taskEntity);
+        taskRepository.save(taskEntity);
     }
 
-    private Task findByIdStream(final Long id) {
-        return this.taskRepository.findByIdAndIsActiveTrue(id)
-                                  .orElseThrow(() -> new NotFoundException(
-                                          "Task with id %d not found".formatted(id)));
+    private Task findByIdInRepository(final Long id) {
+        return taskRepository.findByIdAndIsActiveTrue(id)
+                             .orElseThrow(() -> new NotFoundException(
+                                     "Task with id %d not found".formatted(id)));
     }
 
-    private Set<Task> findAllByNameStream(final String name) {
-        final Set<Task> taskEntities = this.taskRepository.findAllByNameAndIsActiveTrue(name);
+    private Set<Task> findAllByNameInRepository(final String name) {
+        final Set<Task> taskEntities = taskRepository.findAllByNameAndIsActiveTrue(name);
 
         if (taskEntities.isEmpty()) {
             throw new NotFoundException("Tasks with name %s not found".formatted(name));
@@ -79,8 +129,8 @@ public class TaskServiceImpl implements TaskService {
         return taskEntities;
     }
 
-    private Set<Task> findAllByAuthorNameStream(final String authorName) {
-        final Set<Task> taskEntities = this.taskRepository.findAllByAuthorNameAndIsActiveTrue(authorName);
+    private Set<Task> findAllByAuthorNameInRepository(final String authorName) {
+        final Set<Task> taskEntities = taskRepository.findAllByAuthorNameAndIsActiveTrue(authorName);
 
         if (taskEntities.isEmpty()) {
             throw new NotFoundException("Tasks with author name %s not found".formatted(authorName));
@@ -88,4 +138,6 @@ public class TaskServiceImpl implements TaskService {
 
         return taskEntities;
     }
+
+    // endregion
 }

@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity that represents a message from {@link User} to {@link User}.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

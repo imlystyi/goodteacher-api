@@ -98,7 +98,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public boolean signIn(final IdentityDto identityDto) {
         return teacherRepository.existsByNicknameAndPasswordAndIsActiveTrue(identityDto.getNickname(),
-                                                                        identityDto.getPassword());
+                                                                            identityDto.getPassword());
     }
 
     /**
@@ -106,6 +106,7 @@ public class TeacherServiceImpl implements TeacherService {
      *
      * @param userDto teacher to save as {@link UserDto}.
      * @return saved teacher as {@link TeacherDto} if saved successfully.
+     * @throws ConflictException if the student with the specified email or nickname already exists.
      */
     @Override
     public TeacherDto save(final UserDto userDto) {
@@ -126,6 +127,8 @@ public class TeacherServiceImpl implements TeacherService {
      *
      * @param id    teacher ID as {@link Long}.
      * @param email new email as {@link String}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
+     * @throws ConflictException if the student with the specified email or nickname already exists.
      */
     @Override
     public void updateEmail(final Long id, final String email) {
@@ -145,6 +148,7 @@ public class TeacherServiceImpl implements TeacherService {
      *
      * @param id       teacher ID as {@link Long}.
      * @param password new password as {@link String}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     @Override
     public void updatePassword(final Long id, final String password) {
@@ -161,6 +165,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @param id      teacher ID as {@link Long}.
      * @param nameDto new name as {@link NameDto}.
      * @return updated teacher as {@link TeacherDto} if updated successfully.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     @Override
     public TeacherDto updateName(final Long id, final NameDto nameDto) {
@@ -179,6 +184,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @param id        teacher ID as {@link Long}.
      * @param birthDate new birthdate as {@link LocalDate}.
      * @return updated teacher as {@link TeacherDto} if updated successfully.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     @Override
     public TeacherDto updateBirthDate(final Long id, final LocalDate birthDate) {
@@ -192,8 +198,9 @@ public class TeacherServiceImpl implements TeacherService {
     /**
      * Updates the main info of the specified teacher ({@code about} and {@code status}).
      *
-     * @param teacherInfoDto teacher ID as {@link Long}.
+     * @param teacherInfoDto new teacher info as {@link TeacherInfoDto}.
      * @return updated teacher as {@link TeacherDto} if updated successfully.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     @Override
     public TeacherDto updateInfo(final TeacherInfoDto teacherInfoDto) {
@@ -208,12 +215,13 @@ public class TeacherServiceImpl implements TeacherService {
     /**
      * Adds the group to the group list of the specified teacher.
      *
-     * @param teacherId   teacher ID as {@link Long}.
-     * @param groupEntity group as {@link Group}.
+     * @param id          teacher ID as {@link Long}.
+     * @param groupEntity group to add as {@link Group}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     @Override
-    public void addGroup(final Long teacherId, final Group groupEntity) {
-        final Teacher teacherEntity = findByIdInRepository(teacherId);
+    public void addGroup(final Long id, final Group groupEntity) {
+        final Teacher teacherEntity = findByIdInRepository(id);
 
         teacherEntity.getGroups().add(groupEntity);
 
@@ -223,12 +231,13 @@ public class TeacherServiceImpl implements TeacherService {
     /**
      * Removes the group from the group list of the specified teacher.
      *
-     * @param id      teacher ID as {@link Long}.
-     * @param groupId group ID as {@link Long}.
+     * @param teacherId teacher ID as {@link Long}.
+     * @param groupId   group to remove ID as {@link Long}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     @Override
-    public void removeGroup(final Long id, final Long groupId) {
-        final Teacher teacherEntity = findByIdInRepository(id);
+    public void removeGroup(final Long teacherId, final Long groupId) {
+        final Teacher teacherEntity = findByIdInRepository(teacherId);
 
         teacherEntity.getGroups().removeIf(g -> g.getId().equals(groupId));
 
@@ -239,6 +248,7 @@ public class TeacherServiceImpl implements TeacherService {
      * Sets the specific teacher inactive.
      *
      * @param id teacher ID as {@link Long}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     @Override
     public void delete(final Long id) {

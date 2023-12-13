@@ -7,7 +7,16 @@ import com.goodteacher.api.entity.Teacher;
 
 import java.util.stream.Collectors;
 
+/**
+ * Mapper for teacher models.
+ */
 public class TeacherMapper {
+    /**
+     * Converts entity {@link Teacher} to DTO {@link TeacherDto}.
+     *
+     * @param entity entity to convert as {@link Teacher}.
+     * @return converted entity as {@link TeacherDto}.
+     */
     public static TeacherDto fromEntityToDto(final Teacher entity) {
         return TeacherDto.builder()
                          .id(entity.getId())
@@ -27,6 +36,13 @@ public class TeacherMapper {
                          .build();
     }
 
+    /**
+     * Partially converts DTO {@link UserDto} to entity {@link Teacher}.<br>
+     * Note that it uses only {@code nickname}, {@code email}, {@code password}, {@code firstName}, {@code lastName}, {@code patronymic} and {@code birthDate} fields.</br>
+     *
+     * @param userDto DTO to convert as {@link UserDto}.
+     * @return converted entity as {@link TeacherDto}.
+     */
     public static Teacher fromUserDtoToEntity(final UserDto userDto) {
         return Teacher.builder()
                       .nickname(userDto.getNickname())

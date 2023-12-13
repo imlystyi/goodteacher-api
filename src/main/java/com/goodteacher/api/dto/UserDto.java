@@ -1,5 +1,7 @@
 package com.goodteacher.api.dto;
 
+import com.goodteacher.api.service.StudentService;
+import com.goodteacher.api.service.TeacherService;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +12,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+/**
+ * DTO for making a user save.
+ *
+ * @see TeacherService#save(UserDto)
+ * @see StudentService#save(UserDto)
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

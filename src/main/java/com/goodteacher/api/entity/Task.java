@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Entity that represents a task.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

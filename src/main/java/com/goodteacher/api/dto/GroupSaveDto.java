@@ -1,5 +1,7 @@
 package com.goodteacher.api.dto;
 
+import com.goodteacher.api.entity.Group;
+import com.goodteacher.api.service.GroupService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * DTO that represents {@link Group} entity for making a save.
+ *
+ * @see GroupService#save(GroupSaveDto)
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,11 +25,9 @@ public class GroupSaveDto {
 
     private String about;
 
-    // TODO: Checking if teacher exists
     @NotNull
     private Long teacherId;
 
-    // TODO: Checking if student exists
     @NotNull
     private Set<Long> studentIds;
 }

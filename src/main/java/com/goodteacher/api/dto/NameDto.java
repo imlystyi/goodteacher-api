@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO that represents user's name.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +21,6 @@ public class NameDto {
     @NotBlank
     private String lastName;
 
+    @NotBlank
     private String patronymic;
 }

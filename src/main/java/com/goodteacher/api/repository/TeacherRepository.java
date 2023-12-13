@@ -12,17 +12,11 @@ import java.util.Set;
  */
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
-    /**
-     * @param email Email to search by.
-     * @return {@code true} if {@link Teacher} with specified email exists, {@code false} otherwise.
-     */
     boolean existsByEmail(String email);
 
-    /**
-     * @param nickname Nickname to search by.
-     * @return {@code true} if {@link Teacher} with specified nickname exists, {@code false} otherwise.
-     */
     boolean existsByNickname(String nickname);
+
+    boolean existsByNicknameAndPasswordAndIsActiveTrue(String nickname, String password);
 
     Optional<Teacher> findByIdAndIsActiveTrue(Long id);
 

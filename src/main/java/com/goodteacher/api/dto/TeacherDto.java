@@ -1,10 +1,14 @@
 package com.goodteacher.api.dto;
 
+import com.goodteacher.api.entity.Teacher;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * DTO that represents {@link Teacher} entity.
+ */
 @Data
 @Builder
 @AllArgsConstructor

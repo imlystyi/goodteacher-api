@@ -1,7 +1,6 @@
 package com.goodteacher.api.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.goodteacher.api.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * DTO that represents {@link Task} entity.
+ */
 @Data
 @Builder
 @AllArgsConstructor

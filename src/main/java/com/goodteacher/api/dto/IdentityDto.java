@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO that represents user's identity.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

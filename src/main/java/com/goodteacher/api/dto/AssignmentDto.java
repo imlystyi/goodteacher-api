@@ -1,9 +1,6 @@
 package com.goodteacher.api.dto;
 
 import com.goodteacher.api.entity.Assignment;
-import com.goodteacher.api.entity.Student;
-import com.goodteacher.api.entity.Task;
-import com.goodteacher.api.entity.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

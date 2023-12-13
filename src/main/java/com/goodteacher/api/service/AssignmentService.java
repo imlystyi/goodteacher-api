@@ -8,7 +8,6 @@ import com.goodteacher.api.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.Set;
 
-
 /**
  * Interface that provides the functionality for manipulating the assignment models.
  */
@@ -27,7 +26,7 @@ public interface AssignmentService {
      *
      * @param title title to search by as {@link String}.
      * @return found assignments as {@link Set}{@code <}{@link AssignmentDto}{@code >} if any assignment with specified title exists.
-     * @throws NotFoundException if no assignment with specified title exists.
+     * @throws NotFoundException if the assignment with the specified title does not exist.
      */
     Set<AssignmentDto> findByTitle(String title);
 
@@ -44,64 +43,64 @@ public interface AssignmentService {
      *
      * @param assignmentGroupSaveDto assignment to save as {@link AssignmentGroupSaveDto}.
      * @param groupId                group ID as {@link Long}.
-     * @throws NotFoundException if no group with specified ID exists.
+     * @throws NotFoundException if the group with the specified ID does not exist.
      */
     void groupSave(AssignmentGroupSaveDto assignmentGroupSaveDto, Long groupId);
 
     /**
-     * Sets grade to the specific assignment.
+     * Updates the grade of the specific assignment.
      *
      * @param id    assignment ID as {@link Long}.
-     * @param grade grade as {@link Double}.
+     * @param grade new grade as {@link Double}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
-    AssignmentDto grade(Long id, Double grade);
+    AssignmentDto updateGrade(Long id, Double grade);
 
     /**
-     * Sets comment to the specific assignment.
+     * Updates the comment of the specific assignment.
      *
      * @param id      assignment ID as {@link Long}.
-     * @param comment comment as {@link String}.
+     * @param comment new comment as {@link String}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
-    AssignmentDto comment(Long id, String comment);
+    AssignmentDto updateComment(Long id, String comment);
 
     /**
-     * Sets deadline to the specific assignment.
+     * Updates the deadline of the specific assignment.
      *
      * @param id       assignment ID as {@link Long}.
-     * @param deadline deadline as {@link LocalDate}.
+     * @param deadline new deadline as {@link LocalDate}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     AssignmentDto setDeadline(Long id, LocalDate deadline);
 
     /**
-     * Completes the specific assignment.
+     * Updates the completion of the specific assignment to {@code true}.
      *
      * @param id          assignment ID as {@link Long}.
      * @param closingDate date when assignment was completed as {@link LocalDate}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     AssignmentDto complete(Long id, LocalDate closingDate);
 
     /**
-     * Incompletes the specific assignment.
+     * Updates the completion of the specific assignment to {@code false}.
      *
      * @param id assignment ID as {@link Long}.
      * @return updated assignment as {@link AssignmentDto} if updated successfully.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     AssignmentDto incomplete(Long id);
 
     /**
-     * Sets the specific assignment as inactive.
+     * Sets the specific assignment inactive.
      *
      * @param id assignment ID as {@link Long}.
-     * @throws NotFoundException if no assignment with specified ID exists.
+     * @throws NotFoundException if the assignment with specified ID does not exist.
      */
     void delete(Long id);
 }

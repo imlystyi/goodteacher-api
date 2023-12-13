@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+/**
+ * Entity that represents a user with the student role.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -17,7 +17,6 @@ import java.util.Set;
 @Entity
 @Table(name = "students")
 public class Student extends User {
-    // TODO: Bidirectional updating
     @OneToMany(mappedBy = "student")
     private List<Assignment> assignments;
 

@@ -3,6 +3,7 @@ package com.goodteacher.api.service;
 import com.goodteacher.api.dto.*;
 import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Teacher;
+import com.goodteacher.api.exception.ConflictException;
 import com.goodteacher.api.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -61,14 +62,17 @@ public interface TeacherService {
      *
      * @param userDto teacher to save as {@link UserDto}.
      * @return saved teacher as {@link TeacherDto} if saved successfully.
+     * @throws ConflictException if the student with the specified email or nickname already exists.
      */
-    TeacherDto save(final UserDto userDto);
+    TeacherDto save(UserDto userDto);
 
     /**
      * Updates the email of the specified teacher.
      *
      * @param id    teacher ID as {@link Long}.
      * @param email new email as {@link String}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
+     * @throws ConflictException if the student with the specified email or nickname already exists.
      */
     void updateEmail(Long id, String email);
 
@@ -77,6 +81,7 @@ public interface TeacherService {
      *
      * @param id       teacher ID as {@link Long}.
      * @param password new password as {@link String}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     void updatePassword(Long id, String password);
 
@@ -86,6 +91,7 @@ public interface TeacherService {
      * @param id      teacher ID as {@link Long}.
      * @param nameDto new name as {@link NameDto}.
      * @return updated teacher as {@link TeacherDto} if updated successfully.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     TeacherDto updateName(Long id, NameDto nameDto);
 
@@ -95,37 +101,42 @@ public interface TeacherService {
      * @param id        teacher ID as {@link Long}.
      * @param birthDate new birthdate as {@link LocalDate}.
      * @return updated teacher as {@link TeacherDto} if updated successfully.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     TeacherDto updateBirthDate(Long id, LocalDate birthDate);
 
     /**
      * Updates the main info of the specified teacher ({@code about} and {@code status}).
      *
-     * @param teacherInfoDto teacher ID as {@link Long}.
+     * @param teacherInfoDto new teacher info as {@link TeacherInfoDto}.
      * @return updated teacher as {@link TeacherDto} if updated successfully.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     TeacherDto updateInfo(TeacherInfoDto teacherInfoDto);
 
     /**
      * Adds the group to the group list of the specified teacher.
      *
-     * @param teacherId   teacher ID as {@link Long}.
-     * @param groupEntity group as {@link Group}.
+     * @param id          teacher ID as {@link Long}.
+     * @param groupEntity group to add as {@link Group}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
-    void addGroup(Long teacherId, Group groupEntity);
+    void addGroup(Long id, Group groupEntity);
 
     /**
      * Removes the group from the group list of the specified teacher.
      *
-     * @param id      teacher ID as {@link Long}.
-     * @param groupId group ID as {@link Long}.
+     * @param teacherId teacher ID as {@link Long}.
+     * @param groupId   group to remove ID as {@link Long}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
-    void removeGroup(Long id, Long groupId);
+    void removeGroup(Long teacherId, Long groupId);
 
     /**
      * Sets the specific teacher inactive.
      *
      * @param id teacher ID as {@link Long}.
+     * @throws NotFoundException if the teacher with the specified ID does not exist.
      */
     void delete(Long id);
 }

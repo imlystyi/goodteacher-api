@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
+/**
+ * Entity that represents a group of {@link Student} with {@link Teacher} as a curator.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

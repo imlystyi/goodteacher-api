@@ -6,23 +6,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Handles exceptions thrown by the application.
+ */
 @ControllerAdvice
 public class ResourceResponseEntityExceptionHandler {
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ExceptionResponseDto> handleServiceException(final NotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ExceptionResponseDto(ex.getMessage()));
-    }
-
-    @ExceptionHandler(ConflictException.class)
-    public ResponseEntity<ExceptionResponseDto> handleServiceException(final ConflictException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionResponseDto(ex.getMessage()));
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ExceptionResponseDto> handleServiceException(final BadRequestException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponseDto(ex.getMessage()));
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponseDto> handleServiceException(
             final MethodArgumentNotValidException ex) {
@@ -35,5 +23,20 @@ public class ResourceResponseEntityExceptionHandler {
                                  .orElse("Problem while creating error message");
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponseDto(message));
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ExceptionResponseDto> handleServiceException(final BadRequestException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponseDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionResponseDto> handleServiceException(final NotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ExceptionResponseDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ExceptionResponseDto> handleServiceException(final ConflictException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionResponseDto(ex.getMessage()));
     }
 }
