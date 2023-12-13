@@ -1,6 +1,6 @@
-package com.goodteacher.api.entity;
+package com.goodteacher.api.dto;
 
-import jakarta.persistence.*;
+import com.goodteacher.api.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,35 +9,22 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 /**
- * Entity that represents a task.
+ * DTO that represents {@link Task} entity.
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
-@Table(name = "tasks")
-public class Task {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TaskDto {
     private Long id;
 
-    @Column
     private String name;
 
-    @Column
     private String text;
 
-    @Column
     private String quiz;
 
-    @Column
     private LocalDate creationDate;
 
-    @Column
     private String authorName;
-
-    @Column
-    @Builder.Default
-    private Boolean isActive = Boolean.TRUE;
 }

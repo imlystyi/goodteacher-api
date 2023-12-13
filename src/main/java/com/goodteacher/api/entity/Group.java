@@ -1,45 +1,38 @@
 package com.goodteacher.api.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.Set;
-import java.util.UUID;
+import java.util.List;
 
-@EqualsAndHashCode(callSuper = false)
+/**
+ * Entity that represents a group of {@link Student} with {@link Teacher} as a curator.
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "groups")
-@PrimaryKeyJoinColumn(name = "id")
+@Table(name="groups")
 public class Group {
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private String about;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id", nullable = false)
+    @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
     @ManyToMany(mappedBy = "groups")
-    private Set<Student> students;
+    private List<Student> students;
 
-    @Column(nullable = false)
+    @Column
+    @Builder.Default
     private Boolean isActive = Boolean.TRUE;
 }

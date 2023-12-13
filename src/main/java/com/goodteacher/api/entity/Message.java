@@ -6,38 +6,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 /**
- * Entity that represents a task.
+ * Entity that represents a message from {@link User} to {@link User}.
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "tasks")
-public class Task {
+@Table(name = "messages")
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String name;
+    private Long fromUserId;
+
+    @Column
+    private Long toUserId;
 
     @Column
     private String text;
-
-    @Column
-    private String quiz;
-
-    @Column
-    private LocalDate creationDate;
-
-    @Column
-    private String authorName;
-
-    @Column
-    @Builder.Default
-    private Boolean isActive = Boolean.TRUE;
 }

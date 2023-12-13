@@ -1,26 +1,32 @@
 package com.goodteacher.api.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@EqualsAndHashCode(callSuper = true)
+import java.util.List;
+
+/**
+ * Entity that represents a user with the teacher role.
+ */
 @Data
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 @Entity
-@Table(name = "teachers")
-@PrimaryKeyJoinColumn(name = "id")
+@Table(name="teachers")
 public class Teacher extends User {
     @Column
     private String about;
 
-    // TODO: 23-11-2023: Vladyslav: Provide status validation
-    @Column(nullable = false)
+    @Column
     private String status;
+
+    @Builder.Default
+    @OneToMany
+    @JoinTable(name = "teacher_groups",
+               joinColumns = @JoinColumn(name = "teacher_id"),
+               inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private List<Group> groups = List.of();
 }

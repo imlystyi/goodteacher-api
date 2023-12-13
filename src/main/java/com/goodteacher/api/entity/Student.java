@@ -1,37 +1,28 @@
 package com.goodteacher.api.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Set;
+import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
+/**
+ * Entity that represents a user with the student role.
+ */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "students")
-@PrimaryKeyJoinColumn(name = "id")
 public class Student extends User {
-    @Column(nullable = false)
-    private int entryYear;
-
     @OneToMany(mappedBy = "student")
-    private Set<Assignment> assignments;
+    private List<Assignment> assignments;
 
     @ManyToMany
     @JoinTable(name = "students_groups",
                joinColumns = @JoinColumn(name = "student_id"),
                inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private Set<Group> groups;
+    private List<Group> groups;
 }
