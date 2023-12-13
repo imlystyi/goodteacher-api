@@ -1,5 +1,6 @@
 package com.goodteacher.api.service.impl;
 
+import com.goodteacher.api.dto.IdentityDto;
 import com.goodteacher.api.dto.NameDto;
 import com.goodteacher.api.dto.StudentDto;
 import com.goodteacher.api.dto.UserDto;
@@ -55,6 +56,11 @@ public class StudentServiceImpl implements StudentService {
                    .collect(Collectors.toSet());
     }
 
+    @Override
+    public boolean signIn(final IdentityDto identityDto) {
+        return false; // TODO!!!
+    }
+
 
     @Override
     public StudentDto save(final UserDto userDto) {
@@ -64,21 +70,10 @@ public class StudentServiceImpl implements StudentService {
             throw new ConflictException("User with email %s already exists".formatted(userDto.getEmail()));
         }
 
-        final StudentDto studentDto = StudentDto.builder()
-                                                .nickname(userDto.getNickname())
-                                                .email(userDto.getEmail())
-                                                .password(userDto.getPassword())
-                                                .firstName(userDto.getFirstName())
-                                                .lastName(userDto.getLastName())
-                                                .patronymic(userDto.getPatronymic())
-                                                .birthDate(userDto.getBirthDate())
-                                                .build();
+        final Student studentEntity = StudentMapper.fromUserDtoToEntity(userDto);
+        final Student savedStudentEntity = studentRepository.save(studentEntity);
 
-        final Student studentEntity = studentRepository.save(StudentMapper.fromDtoToEntity(studentDto));
-
-        studentDto.setId(studentEntity.getId());
-
-        return studentDto;
+        return StudentMapper.fromEntityToDto(savedStudentEntity);
     }
 
     @Override
@@ -142,10 +137,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void removeGroup(final Long studentId, final Group groupEntity) {
+    public void removeGroup(final Long studentId, final Long groupId) {
         final Student studentEntity = findByIdStream(studentId);
 
-        studentEntity.getGroups().removeIf(g -> g.getId().equals(groupEntity.getId()));
+        studentEntity.getGroups().removeIf(g -> g.getId().equals(groupId));
 
         studentRepository.save(studentEntity);
     }

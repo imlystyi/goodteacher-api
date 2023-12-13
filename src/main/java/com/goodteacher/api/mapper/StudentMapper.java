@@ -1,6 +1,7 @@
 package com.goodteacher.api.mapper;
 
 import com.goodteacher.api.dto.StudentDto;
+import com.goodteacher.api.dto.UserDto;
 import com.goodteacher.api.entity.Group;
 import com.goodteacher.api.entity.Student;
 
@@ -38,6 +39,18 @@ public class StudentMapper {
                       .lastName(dto.getLastName())
                       .patronymic(dto.getPatronymic())
                       .birthDate(dto.getBirthDate())
+                      .build();
+    }
+
+    public static Student fromUserDtoToEntity(final UserDto userDto) {
+        return Student.builder()
+                      .nickname(userDto.getNickname())
+                      .email(userDto.getEmail())
+                      .password(userDto.getPassword())
+                      .firstName(userDto.getFirstName())
+                      .lastName(userDto.getLastName())
+                      .patronymic(userDto.getPatronymic())
+                      .birthDate(userDto.getBirthDate())
                       .build();
     }
 }

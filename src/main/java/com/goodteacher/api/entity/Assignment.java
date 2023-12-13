@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 /**
- * Entity that represents {@link Task} that assigned by {@link Teacher} for specific  {@link Student}.
+ * Entity that represents {@link Task} that assigned by {@link Teacher} for specific {@link Student}.
  */
 @Data
 @AllArgsConstructor

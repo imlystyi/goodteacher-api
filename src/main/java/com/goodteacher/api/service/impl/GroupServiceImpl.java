@@ -82,7 +82,7 @@ public class GroupServiceImpl implements GroupService {
         final Group groupEntity = findByIdInRepository(groupId);
         final Teacher teacherEntity = teacherService.findEntityById(teacherId);
 
-        teacherService.removeGroup(groupEntity.getTeacher().getId(), groupEntity);
+        teacherService.removeGroup(groupEntity.getTeacher().getId(), groupId);
 
         groupEntity.setTeacher(teacherEntity);
 
@@ -104,12 +104,12 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupDto removeStudent(final Long id, final Long studentId) {
-        final Group groupEntity = findByIdInRepository(id);
+    public GroupDto removeStudent(final Long groupId, final Long studentId) {
+        final Group groupEntity = findByIdInRepository(groupId);
 
         groupEntity.getStudents().removeIf(s -> s.getId().equals(studentId));
 
-        studentService.removeGroup(studentId, groupEntity);
+        studentService.removeGroup(studentId, groupId);
 
         return GroupMapper.fromEntityToDto(groupRepository.save(groupEntity));
     }

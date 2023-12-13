@@ -1,5 +1,6 @@
 package com.goodteacher.api.service;
 
+import com.goodteacher.api.dto.IdentityDto;
 import com.goodteacher.api.dto.NameDto;
 import com.goodteacher.api.dto.StudentDto;
 import com.goodteacher.api.dto.UserDto;
@@ -24,10 +25,11 @@ public interface StudentService {
 
     Student findEntityById(Long id);
 
-    // TODO: Provide signing in
     StudentDto findByNickname(String nickname);
 
     Set<StudentDto> findAllByName(NameDto nameDto);
+
+    boolean signIn(IdentityDto identityDto);
 
     StudentDto save(UserDto userDto);
 
@@ -43,7 +45,7 @@ public interface StudentService {
 
     void addGroup(Long studentId, Group groupEntity);
 
-    void removeGroup(Long studentId, Group groupEntity);
+    void removeGroup(Long studentId, Long groupId);
 
     void remove(Long id);
 }

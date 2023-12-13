@@ -18,22 +18,26 @@ import java.util.Set;
 @RequestMapping("/api/assignments")
 @RequiredArgsConstructor
 public class AssignmentResource {
+    // region Fields
+
     private final AssignmentService assignmentService;
+
+    // endregion
 
     // region GET mappings
 
     @GetMapping("/find/id/{id}")
-    public ResponseEntity<AssignmentDto> findById(final @PathVariable @Positive Long id) {
-        final AssignmentDto assignmentDto = this.assignmentService.findById(id);
+    public ResponseEntity<AssignmentDto> findById(final @PathVariable Long id) {
+        final AssignmentDto assignmentDto = assignmentService.findById(id);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(assignmentDto);
+        return ResponseEntity.status(HttpStatus.OK).body(assignmentDto);
     }
 
     @GetMapping("/find/title/{title}")
     public ResponseEntity<Set<AssignmentDto>> findByTitle(final @PathVariable String title) {
-        final Set<AssignmentDto> assignmentDtos = this.assignmentService.findByTitle(title);
+        final Set<AssignmentDto> assignmentDtos = assignmentService.findByTitle(title);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(assignmentDtos);
+        return ResponseEntity.status(HttpStatus.OK).body(assignmentDtos);
     }
 
     // endregion
@@ -41,18 +45,18 @@ public class AssignmentResource {
     // region POST mappings
 
     @PostMapping("/create")
-    public ResponseEntity<AssignmentDto> saveOne(final @RequestBody @Valid AssignmentSaveDto assignmentSaveDto) {
-        final AssignmentDto assignmentDto = this.assignmentService.save(assignmentSaveDto);
+    public ResponseEntity<AssignmentDto> create(final @RequestBody @Valid AssignmentSaveDto assignmentSaveDto) {
+        final AssignmentDto assignmentDto = assignmentService.save(assignmentSaveDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(assignmentDto);
     }
 
-    @PostMapping("/create-group/{groupId}")
-    public ResponseEntity<Void> saveGroup(final @PathVariable Long groupId,
-                                          final @RequestBody @Valid AssignmentGroupSaveDto assignmentGroupSaveDto) {
-        this.assignmentService.groupSave(assignmentGroupSaveDto, groupId);
+    @PostMapping("/group-create/{groupId}")
+    public ResponseEntity<Void> groupCreate(final @PathVariable Long groupId,
+                                            final @RequestBody @Valid AssignmentGroupSaveDto assignmentGroupSaveDto) {
+        assignmentService.groupSave(assignmentGroupSaveDto, groupId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     // endregion
@@ -62,14 +66,14 @@ public class AssignmentResource {
     @PatchMapping("/grade/{id}/{grade}")
     public ResponseEntity<AssignmentDto> grade(final @PathVariable @Positive Long id,
                                                final @PathVariable Double grade) {
-        final AssignmentDto assignmentDto = this.assignmentService.grade(id, grade);
+        final AssignmentDto assignmentDto = assignmentService.grade(id, grade);
 
         return ResponseEntity.status(HttpStatus.OK).body(assignmentDto);
     }
 
     @PatchMapping("/resetGrade/{id}")
     public ResponseEntity<AssignmentDto> resetGrade(final @PathVariable @Positive Long id) {
-        final AssignmentDto assignmentDto = this.assignmentService.grade(id, null);
+        final AssignmentDto assignmentDto = assignmentService.grade(id, null);
 
         return ResponseEntity.status(HttpStatus.OK).body(assignmentDto);
     }
@@ -77,14 +81,14 @@ public class AssignmentResource {
     @PatchMapping("/comment/{id}/{comment}")
     public ResponseEntity<AssignmentDto> comment(final @PathVariable @Positive Long id,
                                                  final @PathVariable String comment) {
-        final AssignmentDto assignmentDto = this.assignmentService.comment(id, comment);
+        final AssignmentDto assignmentDto = assignmentService.comment(id, comment);
 
         return ResponseEntity.status(HttpStatus.OK).body(assignmentDto);
     }
 
     @PatchMapping("/resetComment/{id}")
     public ResponseEntity<AssignmentDto> resetComment(final @PathVariable @Positive Long id) {
-        final AssignmentDto assignmentDto = this.assignmentService.comment(id, null);
+        final AssignmentDto assignmentDto = assignmentService.comment(id, null);
 
         return ResponseEntity.status(HttpStatus.OK).body(assignmentDto);
     }
@@ -92,14 +96,14 @@ public class AssignmentResource {
     @PatchMapping("/setDeadline/{id}/{deadline}")
     public ResponseEntity<AssignmentDto> setDeadline(final @PathVariable @Positive Long id,
                                                      final @PathVariable LocalDate deadline) {
-        final AssignmentDto assignmentDto = this.assignmentService.setDeadline(id, deadline);
+        final AssignmentDto assignmentDto = assignmentService.setDeadline(id, deadline);
 
         return ResponseEntity.status(HttpStatus.OK).body(assignmentDto);
     }
 
     @PatchMapping("/resetDeadline/{id}")
     public ResponseEntity<AssignmentDto> resetDeadline(final @PathVariable @Positive Long id) {
-        final AssignmentDto assignmentDto = this.assignmentService.setDeadline(id, null);
+        final AssignmentDto assignmentDto = assignmentService.setDeadline(id, null);
 
         return ResponseEntity.status(HttpStatus.OK).body(assignmentDto);
     }
@@ -107,14 +111,14 @@ public class AssignmentResource {
     @PatchMapping("/complete/{id}/{closingDate}")
     public ResponseEntity<AssignmentDto> complete(final @PathVariable @Positive Long id,
                                                   final @PathVariable LocalDate closingDate) {
-        final AssignmentDto assignmentDto = this.assignmentService.complete(id, closingDate);
+        final AssignmentDto assignmentDto = assignmentService.complete(id, closingDate);
 
         return ResponseEntity.status(HttpStatus.OK).body(assignmentDto);
     }
 
     @PatchMapping("/incomplete/{id}")
     public ResponseEntity<AssignmentDto> incomplete(final @PathVariable @Positive Long id) {
-        final AssignmentDto assignmentDto = this.assignmentService.incomplete(id);
+        final AssignmentDto assignmentDto = assignmentService.incomplete(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(assignmentDto);
     }
@@ -124,8 +128,8 @@ public class AssignmentResource {
     // region DELETE mappings
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteById(final @PathVariable @Positive Long id) {
-        this.assignmentService.delete(id);
+    public ResponseEntity<?> delete(final @PathVariable @Positive Long id) {
+        assignmentService.delete(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
