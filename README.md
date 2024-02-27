@@ -26,4 +26,4 @@ It was created as a student project from the discipline "Applied Programming" of
 
 ## Technologies and platforms
 
-The project is based on [Spring API](https://spring.io/guides/tutorials/rest/) and JPA; also it uses the H2 database as a repository.
+The project is based on [Spring API](https://spring.io/guides/tutorials/rest/) and JPA; also it uses the H2 database as a data repository.
